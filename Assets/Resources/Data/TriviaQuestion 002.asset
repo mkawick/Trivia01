@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   question: Which of these are mountains
   levelOfDifficulty: 1
-  numOptions: 4
+  numOptions: 5
   numAnswersNeeded: 3
   correctAnswers:
   - McKinnley

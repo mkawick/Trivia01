@@ -15,10 +15,13 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         questionMap = new Dictionary<int, TriviaQuestion>();
-        var questions = Resources.FindObjectsOfTypeAll<TriviaQuestion>();
-        for(int i=0; i< questions.Length; i++)
+        //var questions = Resources.FindObjectsOfTypeAll<TriviaQuestion>();
+        var questions = Resources.LoadAll("Data", typeof(TriviaQuestion));
+        //var resource1 = Resources.Load<TriviaQuestion>("'Data/Level 1'");
+        //var resource2 = Resources.Load<TriviaQuestion>("Resources/Data/Level 1");
+        for (int i=0; i< questions.Length; i++)
         {
-            questionMap.Add(questions[i].GetInstanceID(), questions[i]);
+            questionMap.Add(questions[i].GetInstanceID(), questions[i] as TriviaQuestion);
         }
 
         /*TextMeshPro textmeshPro = GetComponent<TextMeshPro>();
@@ -32,6 +35,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         int selection = Random.Range(0, questionMap.Count);
+        Debug.Log("Selection index: " + selection);
         int whichQuestion = GetQuestion(selection);
 
         TriviaQuestion tq = questionMap[whichQuestion];
