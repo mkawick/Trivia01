@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, TriviaQuestion> questionMap;
     int currentQuestion = -1;
 
+    [SerializeField]
+    float howLongToCelebrate = 5;
+    bool isAwaitingNextQuestion = true;
+    float timeBeforeCreatingNextQuestion = 0;
+
     private void Awake()
     {
         LoadQuestions();
@@ -21,7 +26,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        NextQuestion();
+        
     }
 
     public int GetQuestion(int random)
@@ -97,7 +102,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isAwaitingNextQuestion == true)
+        {
+            if(timeBeforeCreatingNextQuestion < Time.time)
+            {
+                isAwaitingNextQuestion = false;
+                timeBeforeCreatingNextQuestion = 0;
+                ResetAllButtons();
+                NextQuestion(); 
+            }
+        }
     }
     void SubmitAnswerOnClick()
     {
@@ -122,6 +136,8 @@ public class GameManager : MonoBehaviour
         if(numCorrect == numNeeded)
         {
             Debug.Log("all correct answers");
+            timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
+            isAwaitingNextQuestion = true;
         }
     }
     bool IsInList(string needle, string[] answers)

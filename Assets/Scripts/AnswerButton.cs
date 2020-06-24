@@ -41,6 +41,7 @@ public class AnswerButton : MonoBehaviour
 
     public void Reset()
     {
+        isSelected = false;
         ColorBlock colors = GetComponent<Button>().colors;
         colors.normalColor = defaultColor;
         colors.highlightedColor = colors.normalColor;
