@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
         if(numCorrect == numNeeded)
         {
             Debug.Log("all correct answers");
+            questionMap.Remove(currentQuestion);
             timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
             isAwaitingNextQuestion = true;
         }
