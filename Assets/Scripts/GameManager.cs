@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     TMP_Text text;
     public Button questionButton;
+    public Button submitButton;
     public Button[] buttons;
     public Color newColor;
     private Dictionary<int, TriviaQuestion> questionMap;
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         LoadQuestions();
+        submitButton.onClick.AddListener(SubmitAnswerOnClick);
     }
     void Start()
     {
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
     public int GetQuestion(int random)
     {
         return questionMap.ElementAt(random).Key;
-    }    
+    }
 
     private void LoadQuestions()
     {
@@ -39,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     void NextQuestion()
     {
-        if (questionMap==null || questionMap.Count < 3)
+        if (questionMap == null || questionMap.Count < 3)
             LoadQuestions();
         int selection = Random.Range(0, questionMap.Count);
 
@@ -58,14 +60,14 @@ public class GameManager : MonoBehaviour
         SelectAnswersForButtons(numFalseAnswersNeeded, buttonList, falseAnswers);
     }
 
-    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers )
+    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers)
     {
         for (int i = 0; i < numToSelect; i++)
         {
             Button b = buttonList[Random.Range(0, buttonList.Count)];
             string answer = answers[Random.Range(0, answers.Count)];
 
-            b.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = answer;
+            b.GetComponentInChildren<AnswerButton>().Answer = answer;
 
             buttonList.Remove(b);
             answers.Remove(answer);
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour
         else
         {
             List<Button> tempList = new List<Button>();
-            for(int i=0; i<num; i++)
+            for (int i = 0; i < num; i++)
             {
                 tempList.Add(buttons[i]);
             }
@@ -95,6 +97,47 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    void SubmitAnswerOnClick()
+    {
+        TriviaQuestion tq = questionMap[currentQuestion];
+        int numNeeded = tq.numAnswersNeeded;
+        int numCorrect = 0, numFalse = 0;
+        foreach (var button in buttons)
+        {
+            if(button.GetComponent<AnswerButton>().isSelected == true)
+            {
+                string answer = button.GetComponent<AnswerButton>().Answer;
+                if (IsInList(answer, tq.correctAnswers))
+                    numCorrect++;
+                else if (IsInList(answer, tq.falseAnswers) == true)
+                    numFalse++;
+            }
+        }
+        if(numFalse > 0)
+        {
+            Debug.Log("wrong answers");
+        }
+        if(numCorrect == numNeeded)
+        {
+            Debug.Log("all correct answers");
+        }
+    }
+    bool IsInList(string needle, string[] answers)
+    {
+        foreach(var answer in answers)
+        {
+            if (needle == answer)
+                return true;
+        }
+        return false;
+    }
+    void ResetAllButtons()
+    {
+        foreach (var button in buttons)
+        {
+            button.GetComponent<AnswerButton>().Reset();
+        }
     }
 }

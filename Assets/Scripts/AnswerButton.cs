@@ -5,9 +5,14 @@ using UnityEngine.UI;
 
 public class AnswerButton : MonoBehaviour
 {
-    bool isSelected = false;
+    internal bool isSelected = false;
     Color defaultColor;
-    // Start is called before the first frame update
+    
+    internal string Answer 
+    { 
+        get { return GetComponentInChildren<TMPro.TextMeshProUGUI>().text; } 
+        set { GetComponentInChildren<TMPro.TextMeshProUGUI>().text = value; } 
+    }
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
@@ -21,8 +26,6 @@ public class AnswerButton : MonoBehaviour
     }
     void TaskOnClick()
     {
-        Debug.Log("clicked");
-
         ColorBlock colors = GetComponent<Button>().colors;
         isSelected = !isSelected;
         if(isSelected == true)
@@ -34,6 +37,14 @@ public class AnswerButton : MonoBehaviour
 
         GetComponent<Button>().colors = colors;
 
-        Debug.Log("You have clicked the button!");
+    }
+
+    public void Reset()
+    {
+        ColorBlock colors = GetComponent<Button>().colors;
+        colors.normalColor = defaultColor;
+        colors.highlightedColor = colors.normalColor;
+        colors.selectedColor = colors.normalColor;
+        GetComponent<Button>().colors = colors;
     }
 }
