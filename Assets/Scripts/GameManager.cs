@@ -11,61 +11,64 @@ public class GameManager : MonoBehaviour
     public Button[] buttons;
     public Color newColor;
     private Dictionary<int, TriviaQuestion> questionMap;
+    int currentQuestion = -1;
 
     private void Awake()
     {
-        questionMap = new Dictionary<int, TriviaQuestion>();
-        //var questions = Resources.FindObjectsOfTypeAll<TriviaQuestion>();
-        var questions = Resources.LoadAll("Data", typeof(TriviaQuestion));
-        //var resource1 = Resources.Load<TriviaQuestion>("'Data/Level 1'");
-        //var resource2 = Resources.Load<TriviaQuestion>("Resources/Data/Level 1");
-        for (int i=0; i< questions.Length; i++)
-        {
-            questionMap.Add(questions[i].GetInstanceID(), questions[i] as TriviaQuestion);
-        }
-
-        /*TextMeshPro textmeshPro = GetComponent<TextMeshPro>();
-        textmeshPro.color = new Color32(255, 128, 0, 255);*/
+        LoadQuestions();
+    }
+    void Start()
+    {
+        NextQuestion();
     }
 
     public int GetQuestion(int random)
     {
         return questionMap.ElementAt(random).Key;
-    }
-    void Start()
-    {
-        int selection = Random.Range(0, questionMap.Count);
-        Debug.Log("Selection index: " + selection);
-        int whichQuestion = GetQuestion(selection);
+    }    
 
-        TriviaQuestion tq = questionMap[whichQuestion];
+    private void LoadQuestions()
+    {
+        questionMap = new Dictionary<int, TriviaQuestion>();
+        var questions = Resources.LoadAll("Data", typeof(TriviaQuestion));
+        for (int i = 0; i < questions.Length; i++)
+        {
+            questionMap.Add(questions[i].GetInstanceID(), questions[i] as TriviaQuestion);
+        }
+    }
+
+    void NextQuestion()
+    {
+        if (questionMap==null || questionMap.Count < 3)
+            LoadQuestions();
+        int selection = Random.Range(0, questionMap.Count);
+
+        currentQuestion = GetQuestion(selection);
+
+        TriviaQuestion tq = questionMap[currentQuestion];
         questionButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = tq.question;
 
-        
+
         var buttonList = PutAllButtonsInAList(tq.numOptions);
         var correctAnswers = PutOptionsInList(tq.correctAnswers);
         var falseAnswers = PutOptionsInList(tq.falseAnswers);
         // todo: hide unused buttons
-        for (int i= 0; i< tq.numAnswersNeeded; i++)
-        {
-            Button b = buttonList[Random.Range(0, buttonList.Count)];
-            string answer = correctAnswers[Random.Range(0, correctAnswers.Count)];
-
-            b.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = answer;
-
-            buttonList.Remove(b);
-            correctAnswers.Remove(answer);
-        }
+        SelectAnswersForButtons(tq.numAnswersNeeded, buttonList, correctAnswers);
         int numFalseAnswersNeeded = tq.numOptions - tq.numAnswersNeeded;
-        for (int i = 0; i < numFalseAnswersNeeded; i++)
+        SelectAnswersForButtons(numFalseAnswersNeeded, buttonList, falseAnswers);
+    }
+
+    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers )
+    {
+        for (int i = 0; i < numToSelect; i++)
         {
             Button b = buttonList[Random.Range(0, buttonList.Count)];
-            string answer = falseAnswers[Random.Range(0, falseAnswers.Count)];
+            string answer = answers[Random.Range(0, answers.Count)];
 
             b.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = answer;
 
             buttonList.Remove(b);
-            falseAnswers.Remove(answer);
+            answers.Remove(answer);
         }
     }
 
