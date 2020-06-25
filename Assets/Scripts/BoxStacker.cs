@@ -16,15 +16,19 @@ public class BoxStacker : MonoBehaviour
     void Start()
     {
         positionTracker = spawnPoint.transform.position;
-        boxHeight = boxes[0].GetComponent<MeshRenderer>().bounds.extents.y;
+        boxHeight = boxes[0].GetComponent<MeshRenderer>().bounds.extents.y*2;
     }
 
     // Update is called once per frame
-    void Update()
+    public Vector3 GetHighestPoint()
     {
-        if(Input.GetKey(KeyCode.Space)== true)
+        return positionTracker;
+    }
+    public void AddBox(int numBoxes)
+    {
+        for(int i=0; i<numBoxes; i++)
         {
-            Vector3 position = positionTracker;            
+            Vector3 position = positionTracker;
             GameObject obj = Instantiate(boxes[0], positionTracker, spawnPoint.transform.rotation);
             positionTracker.y += boxHeight;
         }
