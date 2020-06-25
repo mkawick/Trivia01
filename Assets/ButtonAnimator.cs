@@ -6,11 +6,12 @@ using System.Linq;
 
 public class ButtonAnimator : MonoBehaviour
 {
-    Transform[] buttonLocations;
+    Vector3[] buttonLocations;
 
     [SerializeField]
     Button[] buttons = null;
     bool scrollInNeeded = true;
+    bool scrollOutAllowed = false;
     void Start()
     {
         HideAllButtons();
@@ -27,11 +28,19 @@ public class ButtonAnimator : MonoBehaviour
 
     void SaveInitialLocations()
     {
-        buttonLocations = new Transform[buttons.Length];
+        buttonLocations = new Vector3[buttons.Length];
         int index = 0;
         foreach (var button in buttons)// hide
         {
-            buttonLocations[index++] = button.transform;
+            buttonLocations[index++] = button.transform.position;
+        }
+    }
+    void RestoreButtonsInInitialLocations()
+    {
+        int index = 0;
+        foreach (var button in buttons)// hide
+        {
+            button.transform.position = buttonLocations[index++];
         }
     }
 
@@ -43,6 +52,13 @@ public class ButtonAnimator : MonoBehaviour
             HideAllButtons();
             scrollInNeeded = false;
             StartCoroutine("AnimateFrom");
+        }
+        else if(scrollOutAllowed == true)
+        {
+            if(Input.GetKey(KeyCode.Space))
+            {
+                StartCoroutine("AnimateOut");
+            }
         }
     }
 
@@ -62,5 +78,23 @@ public class ButtonAnimator : MonoBehaviour
             iTween.MoveFrom(button.gameObject, position, 2);
             yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         }
+        scrollOutAllowed = true;
     }
+    IEnumerator AnimateOut()
+    {
+        var orderedButtons = OrderButtonsRightToLeft();
+        foreach (var button in orderedButtons)// hide
+        {
+            Vector3 position = button.gameObject.transform.position;
+            button.gameObject.SetActive(true);
+            position.x += 600;
+            iTween.MoveTo(button.gameObject, position, 2);
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+        }
+        yield return new WaitForSeconds(2.0f);
+        scrollOutAllowed = false;
+        RestoreButtonsInInitialLocations();
+    }
+
+    
 }
