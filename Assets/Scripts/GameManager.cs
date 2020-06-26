@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        Debug.Assert(rewardWall != null, "requires reward wall");
+        questionManager.rewardWall = rewardWall;
     }
 
 

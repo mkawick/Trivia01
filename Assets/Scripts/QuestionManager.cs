@@ -16,8 +16,9 @@ public class QuestionManager : MonoBehaviour
 
     [SerializeField]
     float howLongToCelebrate = 5;
-    [SerializeField]
-    RewardWall rewardWall;
+    //[SerializeField]
+    internal RewardWall rewardWall;
+    internal BoxStacker boxStacker;
 
     bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
@@ -26,6 +27,7 @@ public class QuestionManager : MonoBehaviour
     {
         LoadQuestions();
         submitButton.onClick.AddListener(SubmitAnswerOnClick);
+        boxStacker = (BoxStacker)FindObjectOfType(typeof(BoxStacker));
     }
     void Start()
     {
@@ -148,6 +150,7 @@ public class QuestionManager : MonoBehaviour
             timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
             isAwaitingNextQuestion = true;
         }
+        boxStacker.AddBox(numCorrect);
     }
     void ResetAllButtons()
     {

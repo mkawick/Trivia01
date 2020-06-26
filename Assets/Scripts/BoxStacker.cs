@@ -27,6 +27,9 @@ public class BoxStacker : MonoBehaviour
 
     public void  AddBox(int numBoxes)
     {
+        if (numBoxes == 0)
+            return;
+
         StartCoroutine("AddBoxTimed", numBoxes);
     }
     IEnumerator AddBoxTimed(int numBoxes)
