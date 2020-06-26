@@ -206,13 +206,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139920697}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.40018997, y: 0.291323, z: -0.13584614, w: 0.8582102}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 37.5, z: 0}
 --- !u!1 &163284815
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,8 +715,9 @@ GameObject:
   - component: {fileID: 1899253875}
   - component: {fileID: 1899253874}
   - component: {fileID: 1899253873}
+  - component: {fileID: 1899253877}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: WallCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -753,7 +754,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91c8078d0a1b24147a0435aee56ef1c7, type: 2}
+  - {fileID: 2100000, guid: f17a695569ab4474192e157a87b6ba58, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -790,9 +791,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899253872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.8, y: 0.51, z: -0.628}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalPosition: {x: 11.8, y: 0.51, z: 0}
+  m_LocalScale: {x: 1, y: 0.5, z: 2.9694}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1899253877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899253872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36c7e381c920eb44a52353cc5014b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfMaterials: []
+  baseWallPiece: {fileID: 1328436026}
+  scaleOfWallPieces: 0.95
