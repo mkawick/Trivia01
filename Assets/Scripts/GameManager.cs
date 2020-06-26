@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     float howLongToCelebrate = 5;
+    [SerializeField]
+    RewardWall rewardWall;
+
     bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
 
@@ -111,6 +114,11 @@ public class GameManager : MonoBehaviour
                 ResetAllButtons();
                 NextQuestion(); 
             }
+        }
+
+        if(Input.GetKeyUp(KeyCode.B)== true)
+        {
+            rewardWall.BuildWall(6);
         }
     }
     void SubmitAnswerOnClick()
