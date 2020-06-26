@@ -24,13 +24,32 @@ public class BoxStacker : MonoBehaviour
     {
         return positionTracker;
     }
-    public void AddBox(int numBoxes)
+
+    public void  AddBox(int numBoxes)
+    {
+        StartCoroutine("AddBoxTimed", numBoxes);
+    }
+    IEnumerator AddBoxTimed(int numBoxes)
     {
         for(int i=0; i<numBoxes; i++)
         {
-            Vector3 position = positionTracker;
+            //Vector3 position = positionTracker;
             GameObject obj = Instantiate(boxes[0], positionTracker, spawnPoint.transform.rotation);
             positionTracker.y += boxHeight;
+            yield return new WaitForSeconds(0.15f);
         }
     }
+   /* IEnumerator AnimateFrom()
+    {
+        var orderedButtons = OrderButtonsRightToLeft();
+        foreach (var button in orderedButtons)// hide
+        {
+            Vector3 position = button.gameObject.transform.position;
+            button.gameObject.SetActive(true);
+            position.x += -600;
+            iTween.MoveFrom(button.gameObject, position, 2);
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+        }
+        scrollOutAllowed = true;
+    }*/
 }

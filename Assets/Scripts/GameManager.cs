@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     float howLongToCelebrate = 5;
     [SerializeField]
     RewardWall rewardWall;
+    [SerializeField]
+    QuestionManager questionManager;
 
     bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
