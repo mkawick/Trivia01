@@ -45,21 +45,12 @@ public class RewardWall : MonoBehaviour
         for (int i = 0; i < numPieces; i++)
         {
             position.y += height;
-            GameObject obj = Instantiate(baseWallPiece, position, baseWallPiece.transform.rotation);
-            Color color = Color.red;
-            if (i % 2 == 1)
-                color = Color.blue;
-            obj.GetComponent<Renderer>().material.color = color;
-            ScaleObjectToMatch(obj, this.gameObject, scaleOfWallPieces);
-            obj.transform.parent = transform;
-            constructedPieces.Add(obj);
+            GameObject obj = CreateWallPiece(position, i, scaleOfWallPieces);
+            height = obj.GetComponent<MeshRenderer>().bounds.extents.y * 2;
         }
         position.y += height;
-        GameObject obj2 = Instantiate(baseWallPiece, position, baseWallPiece.transform.rotation);
+        GameObject obj2 = CreateWallPiece(position, 0, scaleOfWallPieces-0.95f);
         obj2.GetComponent<Renderer>().material.color = Color.white;
-        ScaleObjectToMatch(obj2, this.gameObject, scaleOfWallPieces - 0.05f);
-        obj2.transform.parent = transform;
-        constructedPieces.Add(obj2);
     }
 
     void ScaleObjectToMatch(GameObject obj, GameObject parent, float percentage)
@@ -69,6 +60,19 @@ public class RewardWall : MonoBehaviour
         scale.z *= percentage;
         obj.transform.localScale = scale;
         obj.transform.parent = transform;
+    }
+
+    GameObject CreateWallPiece(Vector3 position, int colorIndex, float scale)
+    {
+        GameObject obj = Instantiate(baseWallPiece, position, baseWallPiece.transform.rotation);
+        Color color = Color.red;
+        if (colorIndex % 2 == 1)
+            color = Color.blue;
+        obj.GetComponent<Renderer>().material.color = color;
+        ScaleObjectToMatch(obj, this.gameObject, scaleOfWallPieces);
+        obj.transform.parent = transform;
+        constructedPieces.Add(obj);
+        return obj;
     }
 }
 
