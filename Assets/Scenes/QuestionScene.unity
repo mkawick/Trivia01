@@ -859,8 +859,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
+  m_UseGravity: 1
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -872,7 +872,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 601223507}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1638,7 +1638,7 @@ PrefabInstance:
     - target: {fileID: 1120055605975975210, guid: d96534576d8d4be4884985f038c6d2c6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1120055605975975210, guid: d96534576d8d4be4884985f038c6d2c6,
         type: 3}
@@ -2023,7 +2023,6 @@ MonoBehaviour:
   - {fileID: 2020897769}
   newColor: {r: 0.23335709, g: 0.7169812, b: 0.28977028, a: 0}
   howLongToCelebrate: 5
-  rewardWall: {fileID: 0}
 --- !u!1 &1264963887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,7 +2047,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264963887}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.01, z: -8.81}
+  m_LocalPosition: {x: 0, y: 1.36, z: -8.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2073014457}
@@ -3105,6 +3104,7 @@ MonoBehaviour:
   - {fileID: 601223507}
   colors: []
   spawnPoint: {fileID: 1264963887}
+  timeBetweenEachBoxSpawned: 0.15
 --- !u!4 &2073014457
 Transform:
   m_ObjectHideFlags: 0
