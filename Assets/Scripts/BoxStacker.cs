@@ -6,7 +6,7 @@ using UnityEngine;
 public class BoxStacker : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] boxes = null;
+    GameObject boxes = null;
     [SerializeField]
     Color[] colors;
     [SerializeField]
@@ -23,7 +23,7 @@ public class BoxStacker : MonoBehaviour
         positionTracker = spawnPoint.transform.position;
         RaycastHit hit;
         Physics.Raycast(positionTracker, Vector3.down, out hit, 2);
-        boxHeight = boxes[0].GetComponent<MeshRenderer>().bounds.extents.y * 2;
+        boxHeight = boxes.GetComponent<MeshRenderer>().bounds.extents.y * 2;
 
         // add 1/2 height to it.
         positionTracker = hit.point;
@@ -49,23 +49,20 @@ public class BoxStacker : MonoBehaviour
         for(int i=0; i<numBoxes; i++)
         {
             //Vector3 position = positionTracker;
-            GameObject obj = Instantiate(boxes[0], positionTracker, spawnPoint.transform.rotation);
+            GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
             positionTracker.y += boxHeight;
             boxesSpawned.Add(obj);
+            obj.transform.parent = this.transform;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
         }
     }
-   /* IEnumerator AnimateFrom()
+   
+    void CleanupBoxes()
     {
-        var orderedButtons = OrderButtonsRightToLeft();
-        foreach (var button in orderedButtons)// hide
+        foreach(var box in boxesSpawned)
         {
-            Vector3 position = button.gameObject.transform.position;
-            button.gameObject.SetActive(true);
-            position.x += -600;
-            iTween.MoveFrom(button.gameObject, position, 2);
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            Destroy(box);
         }
-        scrollOutAllowed = true;
-    }*/
+        boxesSpawned.Clear();
+    }
 }

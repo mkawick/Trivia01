@@ -3101,8 +3101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e723db2c2e2c3344a96a968b2f8a67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxes:
-  - {fileID: 601223507}
+  boxes: {fileID: 601223507}
   colors: []
   spawnPoint: {fileID: 1264963887}
   timeBetweenEachBoxSpawned: 0.15
