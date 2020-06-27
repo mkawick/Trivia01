@@ -10,7 +10,7 @@ public class QuestionManager : MonoBehaviour
     public Button questionButton;
     public Button submitButton;
     public Button[] buttons;
-    public Color newColor;
+    public Color highlightColor;
     private Dictionary<int, TriviaQuestion> questionMap;
     int currentQuestion = -1;
 
@@ -31,7 +31,10 @@ public class QuestionManager : MonoBehaviour
     }
     void Start()
     {
-
+        foreach(var button in buttons)
+        {
+            button.GetComponent<AnswerButton>().highlightColor = highlightColor;
+        }
     }
 
     public int GetQuestion(int random)
