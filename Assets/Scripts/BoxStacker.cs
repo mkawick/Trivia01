@@ -6,11 +6,11 @@ using UnityEngine;
 public class BoxStacker : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] boxes;
+    GameObject[] boxes = null;
     [SerializeField]
     Color[] colors;
     [SerializeField]
-    GameObject spawnPoint;
+    GameObject spawnPoint = null;
     Vector3 positionTracker;
     float boxHeight = 0;
 
@@ -23,7 +23,7 @@ public class BoxStacker : MonoBehaviour
         positionTracker = spawnPoint.transform.position;
         RaycastHit hit;
         Physics.Raycast(positionTracker, Vector3.down, out hit, 2);
-        boxHeight = boxes[0].GetComponent<MeshRenderer>().bounds.extents.y*2;
+        boxHeight = boxes[0].GetComponent<MeshRenderer>().bounds.extents.y * 2;
 
         // add 1/2 height to it.
         positionTracker = hit.point;

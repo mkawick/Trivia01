@@ -8,15 +8,24 @@ public class RewardWall : MonoBehaviour
     [SerializeField]
     Material[] listOfMaterials;
     [SerializeField]
-    GameObject baseWallPiece;
+    GameObject baseWallPiece = null;
+    [SerializeField]
+    GameObject wallPiece = null;
+    GameObject brickPlaceholder = null;
 
     List<GameObject> constructedPieces;
     [SerializeField, Range(0.25f, 1.0f)]
     float scaleOfWallPieces = 0.95f;
-    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        brickPlaceholder = new GameObject();
+        brickPlaceholder.transform.parent = this.transform;
+    }
     void Start()
     {
         Debug.Assert(baseWallPiece != null);
+        
     }
 
     // Update is called once per frame
@@ -38,21 +47,37 @@ public class RewardWall : MonoBehaviour
             }
         }
         constructedPieces = new List<GameObject>(); 
-        float height = baseWallPiece.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+        float height = baseWallPiece.GetComponent<MeshRenderer>().bounds.extents.y ;
 
-        Vector3 position = transform.position;
+        Vector3 position = GetTopOfStand();
+        GameObject obj = CreateWallPiece(wallPiece, position, 0, scaleOfWallPieces);
+        height = obj.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+        obj.transform.position += new Vector3(0, height / 2, 0);
+        position = obj.transform.position;
+        //Debug.Log("b: height: " + height + ", pos.y: " + position.y);
 
-        for (int i = 0; i < numPieces; i++)
+        for (int i = 1; i < numPieces; i++)
         {
             position.y += height;
-            GameObject obj = CreateWallPiece(position, i, scaleOfWallPieces);
-            height = obj.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+            obj = CreateWallPiece(wallPiece, position, i, scaleOfWallPieces);
+            //Debug.Log("l: height: " + height + ", pos.y: " + position.y);
         }
         position.y += height;
-        GameObject obj2 = CreateWallPiece(position, 0, scaleOfWallPieces-0.95f);
+        GameObject obj2 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces-0.95f);
         obj2.GetComponent<Renderer>().material.color = Color.white;
+        ///height = obj2.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+        //Debug.Log("e: height: " + height + ", pos.y: " + position.y);
     }
 
+    Vector3 GetTopOfStand()
+    {
+        Vector3 position = transform.position;
+        position.y += 3;
+        RaycastHit hit;
+        Physics.Raycast(position, Vector3.down, out hit, 8);
+        position = hit.point;
+        return position;
+    }
     void ScaleObjectToMatch(GameObject obj, GameObject parent, float percentage)
     {
         Vector3 scale = parent.transform.localScale;
@@ -62,15 +87,17 @@ public class RewardWall : MonoBehaviour
         obj.transform.parent = transform;
     }
 
-    GameObject CreateWallPiece(Vector3 position, int colorIndex, float scale)
+    GameObject CreateWallPiece(GameObject piece, Vector3 position, int colorIndex, float scale)
     {
-        GameObject obj = Instantiate(baseWallPiece, position, baseWallPiece.transform.rotation);
+        float testHeight = piece.GetComponent<MeshRenderer>().bounds.extents.y;
+        //Debug.Log("e: testheight: " + testHeight);
+        GameObject obj = Instantiate(piece, position, baseWallPiece.transform.rotation);
         Color color = Color.red;
         if (colorIndex % 2 == 1)
             color = Color.blue;
         obj.GetComponent<Renderer>().material.color = color;
-        ScaleObjectToMatch(obj, this.gameObject, scaleOfWallPieces);
-        obj.transform.parent = transform;
+        ScaleObjectToMatch(obj, this.gameObject, scale);
+        obj.transform.parent = brickPlaceholder.transform;
         constructedPieces.Add(obj);
         return obj;
     }

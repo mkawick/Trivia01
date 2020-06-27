@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float howLongToCelebrate = 5;
     [SerializeField]
-    RewardWall rewardWall;
+    RewardWall rewardWall = null;
     [SerializeField]
-    QuestionManager questionManager;
+    QuestionManager questionManager = null;
 
     bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Assert(rewardWall != null, "requires reward wall");
         questionManager.rewardWall = rewardWall;
+        rewardWall.BuildWall(9);
     }
 
 
