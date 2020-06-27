@@ -20,20 +20,13 @@ public class AnswerButton : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
         defaultColor = GetComponent<Button>().colors.normalColor;
-        if(colorOverlay != null)
-        {
-            colorOverlay.SetActive(false);
-        }
+        Debug.Assert(colorOverlay != null);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.G))
-        {
-            if (colorOverlay)
-                colorOverlay.SetActive(true);
-        }
+       
     }
     void TaskOnClick()
     {
@@ -47,16 +40,33 @@ public class AnswerButton : MonoBehaviour
         colors.selectedColor = colors.normalColor;
 
         GetComponent<Button>().colors = colors;
-
     }
 
-    public void Reset()
+    public void ShowCorrectOverlay()
     {
-        isSelected = false;
+        ResetColors();
+        colorOverlay.SetActive(true);
+        colorOverlay.GetComponent<Image>().color = new Color(0, 1, 0, 0.5f); // green
+    }
+    public void ShowIncorrectOverlay()
+    {
+        ResetColors();
+        colorOverlay.SetActive(true);
+        colorOverlay.GetComponent<Image>().color = new Color(1, 0, 0, 0.5f); // red
+    }
+
+    void ResetColors()
+    {
         ColorBlock colors = GetComponent<Button>().colors;
         colors.normalColor = defaultColor;
         colors.highlightedColor = colors.normalColor;
         colors.selectedColor = colors.normalColor;
         GetComponent<Button>().colors = colors;
+    }
+    public void Reset()
+    {
+        isSelected = false;
+        ResetColors();
+        colorOverlay.SetActive(false);
     }
 }

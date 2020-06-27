@@ -133,20 +133,34 @@ public class QuestionManager : MonoBehaviour
         int numCorrect = 0, numFalse = 0;
         foreach (var button in buttons)
         {
-            if (button.GetComponent<AnswerButton>().isSelected == true)
-            {
-                string answer = button.GetComponent<AnswerButton>().Answer;
+            AnswerButton ab = button.GetComponent<AnswerButton>();
+            string answer = ab.Answer;
+            if (ab.isSelected == true)
+            {  
                 if (Utils.IsInList(answer, tq.correctAnswers))
+                {
                     numCorrect++;
+                }
                 else if (Utils.IsInList(answer, tq.falseAnswers) == true)
+                {
                     numFalse++;
+                    ab.ShowIncorrectOverlay();
+                }
+            }
+            else
+            {
+                /// if is correct answer but missed...
+                if (Utils.IsInList(answer, tq.correctAnswers))
+                {
+                    ab.ShowCorrectOverlay();
+                }
             }
         }
         if (numFalse > 0)
         {
             Debug.Log("wrong answers");
         }
-        if (numCorrect == numNeeded)
+        //if (numCorrect == numNeeded)
         {
             Debug.Log("all correct answers");
             questionMap.Remove(currentQuestion);
