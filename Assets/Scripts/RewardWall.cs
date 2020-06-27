@@ -54,19 +54,18 @@ public class RewardWall : MonoBehaviour
         height = obj.GetComponent<MeshRenderer>().bounds.extents.y * 2;
         obj.transform.position += new Vector3(0, height / 2, 0);
         position = obj.transform.position;
-        //Debug.Log("b: height: " + height + ", pos.y: " + position.y);
 
         for (int i = 1; i < numPieces; i++)
         {
             position.y += height;
             obj = CreateWallPiece(wallPiece, position, i, scaleOfWallPieces);
-            //Debug.Log("l: height: " + height + ", pos.y: " + position.y);
         }
         position.y += height;
-        GameObject obj2 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces-0.95f);
-        obj2.GetComponent<Renderer>().material.color = Color.white;
-        ///height = obj2.GetComponent<MeshRenderer>().bounds.extents.y * 2;
-        //Debug.Log("e: height: " + height + ", pos.y: " + position.y);
+        GameObject obj2 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces-0.05f);
+        obj2.GetComponent<MeshRenderer>().material.color = Color.white;
+
+       // position.y += 1;
+       /// GameObject obj3 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces - 0.05f);
     }
 
     Vector3 GetTopOfStand()
