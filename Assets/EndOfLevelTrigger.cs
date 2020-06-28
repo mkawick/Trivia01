@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWithCollider : MonoBehaviour
+public class EndOfLevelTrigger : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,11 +14,5 @@ public class PlayerWithCollider : MonoBehaviour
     void Update()
     {
         
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        // game over on BarrierCollider
-        // Celebration at the end zones
     }
 }

@@ -11,6 +11,8 @@ public class BoxStacker : MonoBehaviour
     Color[] colors;
     [SerializeField]
     GameObject spawnPoint = null;
+    [SerializeField]
+    Transform placeToStackBoxes = null;
     Vector3 positionTracker;
     float boxHeight = 0;
 
@@ -52,8 +54,10 @@ public class BoxStacker : MonoBehaviour
             GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
             positionTracker.y += boxHeight;
             boxesSpawned.Add(obj);
-            obj.transform.parent = this.transform;
+            //obj.transform.parent = this.transform;
+            obj.transform.parent = placeToStackBoxes;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
+            obj.GetComponent<Rigidbody>().isKinematic = false;
         }
     }
    

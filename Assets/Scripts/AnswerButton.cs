@@ -10,7 +10,7 @@ public class AnswerButton : MonoBehaviour
     internal Color highlightColor;
     
     [SerializeField]
-    GameObject colorOverlay;
+    GameObject colorOverlay = null;
     internal string Answer 
     { 
         get { return GetComponentInChildren<TMPro.TextMeshProUGUI>().text; } 
