@@ -666,10 +666,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 10add319-c7ca-4b17-a365-03c6643cb358
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Trivia stack
+  organizationId: yoav_unity546
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
