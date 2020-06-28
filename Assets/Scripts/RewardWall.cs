@@ -21,6 +21,8 @@ public class RewardWall : MonoBehaviour
     {
         brickPlaceholder = new GameObject();
         brickPlaceholder.transform.parent = this.transform;
+        brickPlaceholder.transform.rotation = this.transform.rotation;
+        brickPlaceholder.transform.localScale = new Vector3(1, 0.5f, 3.5f); // off by 90
     }
     void Start()
     {
@@ -77,13 +79,15 @@ public class RewardWall : MonoBehaviour
         position = hit.point;
         return position;
     }
-    void ScaleObjectToMatch(GameObject obj, GameObject parent, float percentage)
+    void ScaleObjectToMatch(GameObject obj, Transform grandParent, Transform parent, float percentage)
     {
+        //var dimensions = grandParent.gameObject.GetComponent<MeshRenderer>().bounds.extents;
         Vector3 scale = parent.transform.localScale;
         scale.x *= percentage;
         scale.z *= percentage;
         obj.transform.localScale = scale;
-        obj.transform.parent = transform;
+        obj.transform.parent = parent;
+        //obj.transform
     }
 
     GameObject CreateWallPiece(GameObject piece, Vector3 position, int colorIndex, float scale)
@@ -95,8 +99,9 @@ public class RewardWall : MonoBehaviour
         if (colorIndex % 2 == 1)
             color = Color.blue;
         obj.GetComponent<Renderer>().material.color = color;
-        ScaleObjectToMatch(obj, this.gameObject, scale);
+        ScaleObjectToMatch(obj, this.transform, brickPlaceholder.transform, scale);
         obj.transform.parent = brickPlaceholder.transform;
+        testHeight = piece.GetComponent<MeshRenderer>().bounds.extents.y;
         constructedPieces.Add(obj);
         return obj;
     }
