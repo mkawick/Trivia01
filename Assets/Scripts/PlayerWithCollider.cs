@@ -21,4 +21,9 @@ public class PlayerWithCollider : MonoBehaviour
         // game over on BarrierCollider
         // Celebration at the end zones
     }
+
+    internal void EnableGravity(bool enable)
+    {
+        GetComponent<Rigidbody>().useGravity = enable;
+    }
 }

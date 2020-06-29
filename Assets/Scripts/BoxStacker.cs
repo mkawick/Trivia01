@@ -13,6 +13,9 @@ public class BoxStacker : MonoBehaviour
     GameObject spawnPoint = null;
     [SerializeField]
     Transform placeToStackBoxes = null;
+    [SerializeField]
+    PlayerWithCollider man = null;
+
     Vector3 positionTracker;
     float boxHeight = 0;
 
@@ -20,6 +23,7 @@ public class BoxStacker : MonoBehaviour
     float timeBetweenEachBoxSpawned = 0.15f;
 
     List<GameObject> boxesSpawned;
+    
     void Start()
     {
         GetBasePositionAndBoxHeight();
@@ -50,6 +54,7 @@ public class BoxStacker : MonoBehaviour
         if (numBoxes == 0)
             return;
 
+
         StartCoroutine("AddBoxTimed", numBoxes);
     }
     IEnumerator AddBoxTimed(int numBoxes)
@@ -64,10 +69,13 @@ public class BoxStacker : MonoBehaviour
             //obj.transform.parent = this.transform;
             obj.name = "Box " + i;
             obj.transform.parent = placeToStackBoxes;
+            obj.GetComponent<RaycastBox>().boxStacker = this;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
             obj.GetComponent<Rigidbody>().isKinematic = false;
             obj.GetComponent<Rigidbody>().useGravity = false;
         }
+        /*yield return new WaitForSeconds(0.05f);
+        man.EnableGravity(false);*/
     }
    
     void CleanupBoxes()
@@ -77,5 +85,16 @@ public class BoxStacker : MonoBehaviour
             Destroy(box);
         }
         boxesSpawned.Clear();
+    }
+
+    internal void FrontRayHitCollider()
+    {
+        Debug.Log("front ray hit collider");
+        man.EnableGravity(false);
+    }
+    internal void BackRayHitCollider()
+    {
+        Debug.Log("front ray hit collider");
+        man.EnableGravity(true);
     }
 }
