@@ -26,14 +26,18 @@ public class QuestionManager : MonoBehaviour
     private void Awake()
     {
         LoadQuestions();
-        submitButton.onClick.AddListener(SubmitAnswerOnClick);
+        if(submitButton != null)
+            submitButton.onClick.AddListener(SubmitAnswerOnClick);
         boxStacker = (BoxStacker)FindObjectOfType(typeof(BoxStacker));
     }
     void Start()
     {
-        foreach(var button in buttons)
+        if (buttons != null)
         {
-            button.GetComponent<AnswerButton>().highlightColor = highlightColor;
+            foreach (var button in buttons)
+            {
+                button.GetComponent<AnswerButton>().highlightColor = highlightColor;
+            }
         }
     }
 
@@ -171,9 +175,12 @@ public class QuestionManager : MonoBehaviour
     }
     void ResetAllButtons()
     {
-        foreach (var button in buttons)
+        if (buttons != null)
         {
-            button.GetComponent<AnswerButton>().Reset();
+            foreach (var button in buttons)
+            {
+                button.GetComponent<AnswerButton>().Reset();
+            }
         }
     }
 }

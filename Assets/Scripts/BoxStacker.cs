@@ -22,15 +22,20 @@ public class BoxStacker : MonoBehaviour
     List<GameObject> boxesSpawned;
     void Start()
     {
+        GetBasePositionAndBoxHeight();
+        boxesSpawned = new List<GameObject>();
+    }
+
+    void GetBasePositionAndBoxHeight()
+    {
+        boxHeight = boxes.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+
         positionTracker = spawnPoint.transform.position;
         RaycastHit hit;
         Physics.Raycast(positionTracker, Vector3.down, out hit, 2);
-        boxHeight = boxes.GetComponent<MeshRenderer>().bounds.extents.y * 2;
-
         // add 1/2 height to it.
         positionTracker = hit.point;
-        positionTracker.y += boxHeight / 2 +0.01f;
-        boxesSpawned = new List<GameObject>();
+        positionTracker.y += boxHeight / 2 + 0.01f;
     }
 
     // Update is called once per frame
@@ -58,6 +63,7 @@ public class BoxStacker : MonoBehaviour
             obj.transform.parent = placeToStackBoxes;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
             obj.GetComponent<Rigidbody>().isKinematic = false;
+            obj.GetComponent<Rigidbody>().useGravity = false;
         }
     }
    

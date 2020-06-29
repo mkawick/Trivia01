@@ -1937,7 +1937,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1264963888}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: StackSpot
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1951,11 +1951,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264963887}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.459, z: -8.81}
+  m_LocalPosition: {x: 0, y: 0.05, z: -0.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2073014457}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1268673311
 GameObject:
@@ -2347,7 +2347,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446488677}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.19, z: -0.26716}
+  m_LocalPosition: {x: 0, y: 1, z: -0.26716}
   m_LocalScale: {x: 0.8745523, y: 1, z: 0.020399999}
   m_Children: []
   m_Father: {fileID: 1108847824}
@@ -2751,7 +2751,7 @@ GameObject:
   m_Layer: 0
   m_Name: BoxesStackedUnderPlayer
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2762,12 +2762,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815981027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.658983, y: -2.4005494, z: -3.825234}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -16.63824, y: -5.01, z: -9.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 2073014457}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1976682183
 GameObject:
@@ -2926,7 +2926,7 @@ MonoBehaviour:
   boxes: {fileID: 601223507}
   colors: []
   spawnPoint: {fileID: 1264963887}
-  placeToStackBoxes: {fileID: 0}
+  placeToStackBoxes: {fileID: 1815981028}
   timeBetweenEachBoxSpawned: 0.15
 --- !u!4 &2073014457
 Transform:
@@ -2936,9 +2936,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2073014454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.020742416, y: 0.13978362, z: 4.506606}
+  m_LocalPosition: {x: -0.020742416, y: 1.27, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1815981028}
   - {fileID: 1264963888}
   m_Father: {fileID: 0}
   m_RootOrder: 5
