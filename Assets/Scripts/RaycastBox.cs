@@ -16,6 +16,8 @@ public class RaycastBox : MonoBehaviour
     Transform raycastDownRear = null, raycastDownFront = null;
 
     internal BoxStacker boxStacker = null;
+    internal bool isImmobile = false;
+    bool isWaitingToPassBarrier = false;
 
     void Start()
     {
@@ -94,31 +96,42 @@ public class RaycastBox : MonoBehaviour
 
     private void Update()
     {
+        if (isImmobile)
+            return;
         if (DetectBarrierAhead() == true)
             SetColor(Color.blue);
         if (DetectBelow(true) == true)
         {
             SetColor(Color.white);
             boxStacker.FrontRayHitCollider();
-            //this.GetComponent<Rigidbody>().en
             gameObject.AddComponent<PositionConstraint>();
+        /*    var comp = GetComponent<PositionConstraint>();
+            comp.constraintActive = true;
+            comp.AddSource(this);*/
         }
         if (DetectBelow(false) == true)
         {
             SetColor(Color.yellow);
-            boxStacker.BackRayHitCollider();
-            var comp = GetComponent<PositionConstraint>();
-            //gameObject.RemoveComponent<PositionConstraint>();
-            Destroy(comp);
+            isWaitingToPassBarrier = true;
+        }
+        else
+        {
+            if(isWaitingToPassBarrier == true)
+            {
+                isWaitingToPassBarrier = false;
+                SetColor(Color.green);
+                boxStacker.BackRayHitCollider();
+                var comp = GetComponent<PositionConstraint>();
+                Destroy(comp);
+            }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == barrierLayer)
+        if(1<<collision.gameObject.layer == barrierLayer)
         {
-            transform.parent = null;
-            GetComponent<Rigidbody>().useGravity = true;
+            boxStacker.BoxHitBarrier(this);
         }
     }
 }

@@ -1399,7 +1399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815981027}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.63824, y: -5.01, z: 10.28}
+  m_LocalPosition: {x: 0, y: 0, z: -0.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2073014457}
@@ -1564,6 +1564,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1264963887}
   placeToStackBoxes: {fileID: 1815981028}
   man: {fileID: 1029831598}
+  ground: {fileID: 1976682184}
   timeBetweenEachBoxSpawned: 0.15
 --- !u!4 &2073014457
 Transform:

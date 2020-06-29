@@ -15,6 +15,8 @@ public class BoxStacker : MonoBehaviour
     Transform placeToStackBoxes = null;
     [SerializeField]
     PlayerWithCollider man = null;
+    [SerializeField]
+    Transform ground = null;
 
     Vector3 positionTracker;
     float boxHeight = 0;
@@ -23,12 +25,46 @@ public class BoxStacker : MonoBehaviour
     float timeBetweenEachBoxSpawned = 0.15f;
 
     List<GameObject> boxesSpawned;
-    
+    private LayerMask raycastBoxLayer = 0, levelLayer = 0;
+
+    bool updateSpawnPosition = false;
+
     void Start()
     {
         GetBasePositionAndBoxHeight();
         boxes.gameObject.SetActive(false);
         boxesSpawned = new List<GameObject>();
+        raycastBoxLayer = LayerMask.GetMask("Barriers");
+        levelLayer = LayerMask.GetMask("Ground");
+        //int value = 1<<LayerMask.NameToLayer("Ground");
+    }
+
+    private void Update()
+    { 
+        if(updateSpawnPosition)
+            UpdateSpawnPosition();
+    }
+
+    void UpdateSpawnPosition()
+    {
+        RaycastHit hit;
+        Vector3 pos = positionTracker;
+        float gap = 1.2f;
+        pos.y += gap;
+        int combinedMask = raycastBoxLayer | levelLayer;
+
+        if (Physics.Raycast(pos, Vector3.down, out hit, gap*2, combinedMask) == true)
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                positionTracker = spawnPoint.transform.position;
+            }
+            else
+            {
+                positionTracker = hit.point;
+                positionTracker.y += 0.05f;
+            }
+        }
     }
 
     void GetBasePositionAndBoxHeight()
@@ -54,12 +90,12 @@ public class BoxStacker : MonoBehaviour
         if (numBoxes == 0)
             return;
 
-
         StartCoroutine("AddBoxTimed", numBoxes);
     }
     IEnumerator AddBoxTimed(int numBoxes)
     {
-        for(int i=0; i<numBoxes; i++)
+        updateSpawnPosition = false;
+        for (int i=0; i<numBoxes; i++)
         {
             //Vector3 position = positionTracker;
             GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
@@ -74,8 +110,9 @@ public class BoxStacker : MonoBehaviour
             obj.GetComponent<Rigidbody>().isKinematic = false;
             obj.GetComponent<Rigidbody>().useGravity = false;
         }
-        /*yield return new WaitForSeconds(0.05f);
-        man.EnableGravity(false);*/
+        yield return new WaitForSeconds(0.05f);
+        //man.EnableGravity(false);
+        updateSpawnPosition = true;
     }
    
     void CleanupBoxes()
@@ -96,5 +133,12 @@ public class BoxStacker : MonoBehaviour
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(true);
+    }
+
+    internal void BoxHitBarrier(RaycastBox box)
+    {
+        box.transform.parent = ground;
+        box.isImmobile = true;
+        box.GetComponent<Rigidbody>().useGravity = true;
     }
 }
