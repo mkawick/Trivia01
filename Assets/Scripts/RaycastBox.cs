@@ -4,8 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 //#define 
-public class RaycastBox
-    : MonoBehaviour
+public class RaycastBox : MonoBehaviour
 {
     /*[SerializeField]
     GameObject boxes = null;*/
@@ -13,6 +12,7 @@ public class RaycastBox
      Color[] colors;*/
     float boxHeight = 0;
     private int supportBlockLayer, barrierLayer;
+    public bool barrierIsHit { get; set; }
 
     Transform[] raycastPoints;
     void Start()
@@ -22,7 +22,8 @@ public class RaycastBox
         transforms.Remove(transform);
         raycastPoints = transforms.ToArray();
         supportBlockLayer = LayerMask.NameToLayer("SupportBlock");
-        barrierLayer = LayerMask.NameToLayer("Barrier");
+        barrierLayer = LayerMask.NameToLayer("Barriers");
+        barrierIsHit = false;
     }
 
     void GetBasePositionAndBoxHeight()
@@ -43,35 +44,53 @@ public class RaycastBox
         bool didHit = Physics.Raycast(transform.position, Vector3.forward, out hit, 2);
 
         Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
+        if (didHit)
+        {
+            barrierIsHit = true;
+            GetComponent<Rigidbody>().useGravity = true;
+        }
         return didHit;
     }
     bool DetectBelow()
     {
         RaycastHit hit;
         int layerMask = supportBlockLayer | barrierLayer;
-        bool didHit = Physics.Raycast(transform.position, Vector3.forward, out hit, layerMask);
-
-        if(didHit)
+        foreach (var ray in raycastPoints)
         {
-            if (hit.transform.gameObject.layer == supportBlockLayer)
+            bool didHit = Physics.Raycast(ray.transform.position, Vector3.down, out hit, layerMask);
+
+            if (didHit)
             {
-                Debug.Log("support");
-                // Make a path
+                if (hit.transform.gameObject.layer == supportBlockLayer)
+                {
+                    Debug.Log("support");
+
+                    // Make a path
+                }
+                else
+                {
+                    Debug.Log("barrierLayer");
+                    // Do whatever you want
+                }
             }
-            else
-            {
-                Debug.Log("barrierLayer");
-                // Do whatever you want
-            }
+            Debug.DrawRay(ray.transform.position, Vector3.down, Color.red);
+            if (didHit)
+                return true;
         }
-        Debug.DrawRay(transform.position, Vector3.down, Color.red);
-        return didHit;
+        return false;
+    }
+
+    void SetColor(Color color)
+    {
+        GetComponent<MeshRenderer>().material.color = color;
     }
 
     private void Update()
     {
-        DetectBarrierAhead();
-        DetectBelow();
+        if (DetectBarrierAhead() == true)
+            SetColor(Color.blue);
+        if (DetectBelow() == true)
+            SetColor(Color.white);
     }
 
     // Update is called once per frame

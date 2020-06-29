@@ -23,6 +23,7 @@ public class BoxStacker : MonoBehaviour
     void Start()
     {
         GetBasePositionAndBoxHeight();
+        boxes.gameObject.SetActive(false);
         boxesSpawned = new List<GameObject>();
     }
 
@@ -57,9 +58,11 @@ public class BoxStacker : MonoBehaviour
         {
             //Vector3 position = positionTracker;
             GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
+            obj.SetActive(true);
             positionTracker.y += boxHeight;
             boxesSpawned.Add(obj);
             //obj.transform.parent = this.transform;
+            obj.name = "Box " + i;
             obj.transform.parent = placeToStackBoxes;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
             obj.GetComponent<Rigidbody>().isKinematic = false;
