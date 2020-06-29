@@ -130,7 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229465935}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,7 +570,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1108847824}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Barriers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1201403165}
   m_Layer: 10
-  m_Name: RaycastRear
+  m_Name: RaycastFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -722,7 +722,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201403164}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47, y: -0.43, z: 0.467}
+  m_LocalPosition: {x: -0.485, y: -0.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1742778731}
@@ -752,7 +752,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241592574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47, y: -0.43, z: -0.467}
+  m_LocalPosition: {x: 0.47, y: -0.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1742778731}
@@ -870,7 +870,7 @@ GameObject:
   - component: {fileID: 1285210117}
   - component: {fileID: 1285210116}
   - component: {fileID: 1285210115}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WallCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1095,7 +1095,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &1742778728
 BoxCollider:
@@ -1185,6 +1185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac961f574e3d63f43921b6569f2eb6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raycastDownRear: {fileID: 1241592575}
+  raycastDownFront: {fileID: 1201403165}
 --- !u!1 &1815981027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,7 +1230,7 @@ GameObject:
   - component: {fileID: 1976682186}
   - component: {fileID: 1976682185}
   - component: {fileID: 1976682188}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}

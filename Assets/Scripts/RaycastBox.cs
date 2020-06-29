@@ -6,21 +6,19 @@ using System.Linq;
 //#define 
 public class RaycastBox : MonoBehaviour
 {
-    /*[SerializeField]
-    GameObject boxes = null;*/
-    /* [SerializeField]
-     Color[] colors;*/
     float boxHeight = 0;
     private int supportBlockLayer, barrierLayer;
     public bool barrierIsHit { get; set; }
 
     Transform[] raycastPoints;
+    [SerializeField]
+    Transform raycastDownRear = null, raycastDownFront = null;
     void Start()
     {
         GetBasePositionAndBoxHeight();
-        var transforms = new HashSet<Transform>(GetComponentsInChildren<Transform>());
+        /*var transforms = new HashSet<Transform>(GetComponentsInChildren<Transform>());
         transforms.Remove(transform);
-        raycastPoints = transforms.ToArray();
+        raycastPoints = transforms.ToArray();*/
         supportBlockLayer = LayerMask.NameToLayer("SupportBlock");
         barrierLayer = LayerMask.NameToLayer("Barriers");
         barrierIsHit = false;
@@ -51,32 +49,36 @@ public class RaycastBox : MonoBehaviour
         }
         return didHit;
     }
-    bool DetectBelow()
+    bool DetectBelow(bool isFront)
     {
         RaycastHit hit;
         int layerMask = supportBlockLayer | barrierLayer;
-        foreach (var ray in raycastPoints)
+        Transform transform = raycastDownFront;
+        if (isFront == false)
+            transform = raycastDownRear;
+
+
+        float maxDist = 1;
+        bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
+
+        if (didHit)
         {
-            bool didHit = Physics.Raycast(ray.transform.position, Vector3.down, out hit, layerMask);
-
-            if (didHit)
+            if (hit.transform.gameObject.layer == supportBlockLayer)
             {
-                if (hit.transform.gameObject.layer == supportBlockLayer)
-                {
-                    Debug.Log("support");
+                Debug.Log("support");
 
-                    // Make a path
-                }
-                else
-                {
-                    Debug.Log("barrierLayer");
-                    // Do whatever you want
-                }
+                // Make a path
             }
-            Debug.DrawRay(ray.transform.position, Vector3.down, Color.red);
-            if (didHit)
-                return true;
+            else
+            {
+                Debug.Log("barrierLayer");
+                // Do whatever you want
+            }
         }
+        Debug.DrawRay(transform.position, Vector3.down, Color.red);
+        if (didHit)
+            return true;
+
         return false;
     }
 
@@ -89,45 +91,18 @@ public class RaycastBox : MonoBehaviour
     {
         if (DetectBarrierAhead() == true)
             SetColor(Color.blue);
-        if (DetectBelow() == true)
+        if (DetectBelow(true) == true)
             SetColor(Color.white);
+        if (DetectBelow(false) == true)
+            SetColor(Color.yellow);
     }
 
-    // Update is called once per frame
-    /*  public Vector3 GetHighestPoint()
-      {
-          return positionTracker;
-      }
-
-      public void  AddBox(int numBoxes)
-      {
-          if (numBoxes == 0)
-              return;
-
-          StartCoroutine("AddBoxTimed", numBoxes);
-      }
-      IEnumerator AddBoxTimed(int numBoxes)
-      {
-          for(int i=0; i<numBoxes; i++)
-          {
-              //Vector3 position = positionTracker;
-              GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
-              positionTracker.y += boxHeight;
-              boxesSpawned.Add(obj);
-              //obj.transform.parent = this.transform;
-              obj.transform.parent = placeToStackBoxes;
-              yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
-              obj.GetComponent<Rigidbody>().isKinematic = false;
-              obj.GetComponent<Rigidbody>().useGravity = false;
-          }
-      }
-
-      void CleanupBoxes()
-      {
-          foreach(var box in boxesSpawned)
-          {
-              Destroy(box);
-          }
-          boxesSpawned.Clear();
-      }*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == barrierLayer)
+        {
+            transform.parent = null;
+            GetComponent<Rigidbody>().useGravity = true;
+        }
+    }
 }
