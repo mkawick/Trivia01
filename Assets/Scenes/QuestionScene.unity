@@ -1629,7 +1629,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029823163}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.18, z: 0.078}
+  m_LocalPosition: {x: 0, y: 1.12, z: 0.078}
   m_LocalScale: {x: 1, y: 1.2, z: 0.020399999}
   m_Children: []
   m_Father: {fileID: 1108847824}
@@ -2026,7 +2026,9 @@ MonoBehaviour:
   - {fileID: 420148144}
   - {fileID: 1760012217}
   - {fileID: 981313672}
-  highlightColor: {r: 0.377136, g: 0.7075472, b: 0.43748996, a: 1}
+  buttonHighlightColor: {r: 1, g: 0.55054843, b: 0.2235294, a: 0.7019608}
+  correctAnswerHighlightColor: {r: 0.19241722, g: 0.8679245, b: 0.29150474, a: 0.7647059}
+  incorrectAnswerHighlightColor: {r: 0.990566, g: 0.07008721, b: 0.07008721, a: 0.78039217}
   howLongToCelebrate: 5
 --- !u!1 &1264963887
 GameObject:
@@ -2391,8 +2393,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.8984871, z: 1.5313345}
-  m_Center: {x: 0, y: -0.05075646, z: 0.028170323}
+  m_Size: {x: 1, y: 0.8984871, z: 1.4636893}
+  m_Center: {x: 0, y: -0.05075646, z: 0.06199289}
 --- !u!23 &1446488679
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2448,7 +2450,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446488677}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9, z: -0.26716}
+  m_LocalPosition: {x: 0, y: 0.8, z: -0.26716}
   m_LocalScale: {x: 1, y: 0.6, z: 0.020399999}
   m_Children: []
   m_Father: {fileID: 1108847824}
@@ -2849,7 +2851,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632915888}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9, z: -0.1221}
+  m_LocalPosition: {x: 0, y: 0.8, z: -0.1221}
   m_LocalScale: {x: 1, y: 0.6, z: 0.020399999}
   m_Children: []
   m_Father: {fileID: 1108847824}
@@ -2866,8 +2868,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.8984871, z: 1.5313345}
-  m_Center: {x: 0, y: -0.05075646, z: 0.028170323}
+  m_Size: {x: 1, y: 0.8984871, z: 1.4349236}
+  m_Center: {x: 0, y: -0.05075646, z: 0.07637575}
 --- !u!23 &1632915891
 MeshRenderer:
   m_ObjectHideFlags: 0

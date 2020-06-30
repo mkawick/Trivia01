@@ -8,7 +8,9 @@ public class AnswerButton : MonoBehaviour
     internal bool isSelected = false;
     Color defaultColor;
     internal Color highlightColor;
-    
+    public Color correctAnswerHighlightColor;
+    public Color incorrectAnswerHighlightColor;
+
     [SerializeField]
     GameObject colorOverlay = null;
     internal string Answer 
@@ -46,13 +48,13 @@ public class AnswerButton : MonoBehaviour
     {
         ResetColors();
         colorOverlay.SetActive(true);
-        colorOverlay.GetComponent<Image>().color = new Color(0, 1, 0, 0.5f); // green
+        colorOverlay.GetComponent<Image>().color = correctAnswerHighlightColor;
     }
     public void ShowIncorrectOverlay()
     {
         ResetColors();
         colorOverlay.SetActive(true);
-        colorOverlay.GetComponent<Image>().color = new Color(1, 0, 0, 0.5f); // red
+        colorOverlay.GetComponent<Image>().color = incorrectAnswerHighlightColor;
     }
 
     void ResetColors()

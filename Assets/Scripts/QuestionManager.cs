@@ -10,7 +10,9 @@ public class QuestionManager : MonoBehaviour
     public Button questionButton;
     public Button submitButton;
     public Button[] buttons;
-    public Color highlightColor;
+    public Color buttonHighlightColor;
+    public Color correctAnswerHighlightColor;
+    public Color incorrectAnswerHighlightColor;
     private Dictionary<int, TriviaQuestion> questionMap;
     int currentQuestion = -1;
 
@@ -36,7 +38,10 @@ public class QuestionManager : MonoBehaviour
         {
             foreach (var button in buttons)
             {
-                button.GetComponent<AnswerButton>().highlightColor = highlightColor;
+                var ab = button.GetComponent<AnswerButton>();
+                ab.highlightColor = buttonHighlightColor;
+                ab.correctAnswerHighlightColor = correctAnswerHighlightColor;
+                ab.incorrectAnswerHighlightColor = incorrectAnswerHighlightColor;
             }
         }
     }

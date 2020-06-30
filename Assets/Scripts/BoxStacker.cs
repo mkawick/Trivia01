@@ -110,7 +110,7 @@ public class BoxStacker : MonoBehaviour
             obj.GetComponent<RaycastBox>().boxStacker = this;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
             obj.GetComponent<Rigidbody>().isKinematic = false;
-            obj.GetComponent<Rigidbody>().useGravity = false;
+            obj.GetComponent<Rigidbody>().useGravity = true;
         }
         yield return new WaitForSeconds(0.05f);
         //man.EnableGravity(false);
