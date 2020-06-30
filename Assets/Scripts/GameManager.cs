@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     PlayerWithCollider man = null;
 
-    bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
 
     [SerializeField]
@@ -24,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     enum GameState
     {
-        Intro, TakingQuestions, Scrolling
+        Intro, TakingQuestions, Scrolling, WaitingAtEnd
     }
     GameState gameState = GameState.Intro;
 
@@ -42,18 +41,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(gameState)
+        switch (gameState)
         {
             case GameState.Intro:
                 scroller.scrollingEnabled = false;
+                scroller.Reset();
                 gameState = GameState.TakingQuestions;
                 GetComponent<QuestionManager>().EnableQuestions(true);
                 GetComponent<QuestionManager>().StartRounds(3); // << magic number
                 man.initialState = true;
                 gameState = GameState.TakingQuestions;
+                
                 break;
             case GameState.TakingQuestions:
-                if(GetComponent<QuestionManager>().numQuestionsRemaining == 0)
+                if (GetComponent<QuestionManager>().numQuestionsRemaining == 0)
                 {
                     // paused need to happen here.. new game state
                     gameState = GameState.Scrolling;
@@ -64,23 +65,36 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Scrolling:
                 break;
-        }
-        if (isAwaitingNextQuestion == true)
-        {
-            if(timeBeforeCreatingNextQuestion < Time.time)
-            {
-                isAwaitingNextQuestion = false;
-                timeBeforeCreatingNextQuestion = 0;
-            }
+            case GameState.WaitingAtEnd:
+                if (timeBeforeCreatingNextQuestion < Time.time)
+                {
+                    //isAwaitingNextQuestion = false;
+                    timeBeforeCreatingNextQuestion = 0;
+                    gameState = GameState.Intro;
+                    //scroller.scrollingEnabled = true;
+                    var boxStacker = (BoxStacker)FindObjectOfType(typeof(BoxStacker));
+                    boxStacker.Reset();
+                }
+                break;
         }
     }
     
     internal void OnPlayerTouchesDown()
     {
-        gameState = GameState.Intro;
+        ChangeStateToWaitingAtEnd();
+        // todo, add celebration here
     }
     internal void OnScrollToEndReached()
     {
-        gameState = GameState.Intro;
+        ChangeStateToWaitingAtEnd();
+        // todo, add celebration here
+
+    }
+
+    void ChangeStateToWaitingAtEnd()
+    {
+        gameState = GameState.WaitingAtEnd;
+        timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
+        scroller.scrollingEnabled = false;
     }
 }

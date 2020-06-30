@@ -118,7 +118,11 @@ public class BoxStacker : MonoBehaviour
         //man.EnableGravity(false);
         updateSpawnPosition = true;
     }
-   
+
+    public void Reset()
+    {
+        CleanupBoxes();
+    }
     void CleanupBoxes()
     {
         foreach(var box in boxesSpawned)

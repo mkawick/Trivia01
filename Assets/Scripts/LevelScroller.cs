@@ -6,12 +6,13 @@ public class LevelScroller : MonoBehaviour
 {
     [SerializeField]
     float speed = 0.5f;
-    
+
+    Vector3 initialPosition;
 
     internal bool scrollingEnabled = true;
     void Start()
     {
-        
+        initialPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -21,6 +22,12 @@ public class LevelScroller : MonoBehaviour
             NormalScroll();
 
         TestingScroll();
+    }
+
+    internal void Reset()
+    {
+        transform.position = initialPosition;
+        scrollingEnabled = false;
     }
 
     void NormalScroll()

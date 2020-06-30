@@ -32,8 +32,8 @@ public class PlayerWithCollider : MonoBehaviour
         // Celebration at the end zones
         if (initialState)
             return;
-
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        int mask = LayerMask.NameToLayer("Ground");
+        if (collision.gameObject.layer == mask)
         {
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             gm.OnPlayerTouchesDown();
