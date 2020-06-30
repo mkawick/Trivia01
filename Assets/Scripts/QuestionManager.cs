@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -15,10 +16,13 @@ public class QuestionManager : MonoBehaviour
     public Color correctAnswerHighlightColor;
     public Color incorrectAnswerHighlightColor;
     private Dictionary<int, TriviaQuestion> questionMap;
-    int currentQuestion = -1;
+    const int invalidQuestion = -1;
+    int currentQuestion = invalidQuestion;
 
     [SerializeField]
     float howLongToCelebrate = 5;
+    [SerializeField]
+    bool autoComplete = false;
     //[SerializeField]
     internal RewardWall rewardWall;
     internal BoxStacker boxStacker;
@@ -60,6 +64,7 @@ public class QuestionManager : MonoBehaviour
     internal void StartRounds(int numRounds)
     {
         numQuestionsRemaining = numRounds;
+        currentQuestion = invalidQuestion;
     }
     public int GetQuestion(int random)
     {
@@ -80,7 +85,7 @@ public class QuestionManager : MonoBehaviour
     {
         if (questionMap == null || questionMap.Count < 3)
             LoadQuestions();
-        int selection = Random.Range(0, questionMap.Count);
+        int selection = UnityEngine.Random.Range(0, questionMap.Count);
 
         currentQuestion = GetQuestion(selection);
 
@@ -101,8 +106,8 @@ public class QuestionManager : MonoBehaviour
     {
         for (int i = 0; i < numToSelect; i++)
         {
-            Button b = buttonList[Random.Range(0, buttonList.Count)];
-            string answer = answers[Random.Range(0, answers.Count)];
+            Button b = buttonList[UnityEngine.Random.Range(0, buttonList.Count)];
+            string answer = answers[UnityEngine.Random.Range(0, answers.Count)];
 
             b.GetComponentInChildren<AnswerButton>().Answer = answer;
 
@@ -147,23 +152,68 @@ public class QuestionManager : MonoBehaviour
                 }
             }
         }
+        if(autoComplete)
+        {
+            submitButton.gameObject.SetActive(false);
+            CheckAutoComplete();
+        }
+        else
+        {
+            submitButton.gameObject.SetActive(true);
+        }
 
-        if (Input.GetKeyUp(KeyCode.B) == true)
+     /*   if (Input.GetKeyUp(KeyCode.B) == true)
         {
             rewardWall.BuildWall(6);
+        }*/
+    }
+
+    private void CheckAutoComplete()
+    {
+        if (currentQuestion == invalidQuestion)
+            return;
+
+        TriviaQuestion tq = questionMap[currentQuestion];
+        int count = 0;
+        foreach (var button in buttons)
+        {
+            AnswerButton ab = button.GetComponent<AnswerButton>();
+            if (ab.isSelected == true)
+            {
+                count++;
+            }
+        }
+        if(count >= tq.numAnswersNeeded)
+        {
+            FinishRound();
         }
     }
-    void SubmitAnswerOnClick()
+
+    void FinishRound()
+    {
+        int numCorrect = CountCorrectItems(currentQuestion);
+        questionMap.Remove(currentQuestion);
+        timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
+        isAwaitingNextQuestion = true;
+
+        boxStacker.AddBox(numCorrect);
+        numQuestionsRemaining--;
+        if (numQuestionsRemaining < 0)
+            numQuestionsRemaining = 0;
+        currentQuestion = invalidQuestion;
+    }
+
+    int CountCorrectItems(int currentQuestion)
     {
         TriviaQuestion tq = questionMap[currentQuestion];
-        int numNeeded = tq.numAnswersNeeded;
+        //int numNeeded = tq.numAnswersNeeded;
         int numCorrect = 0, numFalse = 0;
         foreach (var button in buttons)
         {
             AnswerButton ab = button.GetComponent<AnswerButton>();
             string answer = ab.Answer;
             if (ab.isSelected == true)
-            {  
+            {
                 if (Utils.IsInList(answer, tq.correctAnswers))
                 {
                     numCorrect++;
@@ -183,21 +233,12 @@ public class QuestionManager : MonoBehaviour
                 }
             }
         }
-        if (numFalse > 0)
-        {
-            Debug.Log("wrong answers");
-        }
-        //if (numCorrect == numNeeded)
-        {
-            Debug.Log("all correct answers");
-            questionMap.Remove(currentQuestion);
-            timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
-            isAwaitingNextQuestion = true;
-        }
-        boxStacker.AddBox(numCorrect);
-        numQuestionsRemaining--;
-        if (numQuestionsRemaining < 0)
-            numQuestionsRemaining = 0;
+        return numCorrect;
+    }
+
+    void SubmitAnswerOnClick()
+    {
+        FinishRound();
     }
     void ResetAllButtons()
     {
