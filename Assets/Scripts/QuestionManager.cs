@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class QuestionManager : MonoBehaviour
 {
-    TMP_Text text;
+    [SerializeField]
+    GameObject canvas = null;
     public Button questionButton;
     public Button submitButton;
     public Button[] buttons;
@@ -24,6 +25,8 @@ public class QuestionManager : MonoBehaviour
 
     bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
+    bool allowingQuestions = false;
+    internal int numQuestionsRemaining = 0;
 
     private void Awake()
     {
@@ -46,6 +49,14 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
+    internal void EnableQuestions(bool enable)
+    {
+        allowingQuestions = enable;
+    }
+    internal void StartRounds(int numRounds)
+    {
+        numQuestionsRemaining = numRounds;
+    }
     public int GetQuestion(int random)
     {
         return questionMap.ElementAt(random).Key;
@@ -119,14 +130,17 @@ public class QuestionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAwaitingNextQuestion == true)
+        if (allowingQuestions == true)
         {
-            if (timeBeforeCreatingNextQuestion < Time.time)
+            if (isAwaitingNextQuestion == true)
             {
-                isAwaitingNextQuestion = false;
-                timeBeforeCreatingNextQuestion = 0;
-                ResetAllButtons();
-                NextQuestion();
+                if (timeBeforeCreatingNextQuestion < Time.time)
+                {
+                    isAwaitingNextQuestion = false;
+                    timeBeforeCreatingNextQuestion = 0;
+                    ResetAllButtons();
+                    NextQuestion();
+                }
             }
         }
 
@@ -177,6 +191,9 @@ public class QuestionManager : MonoBehaviour
             isAwaitingNextQuestion = true;
         }
         boxStacker.AddBox(numCorrect);
+        numQuestionsRemaining--;
+        if (numQuestionsRemaining < 0)
+            numQuestionsRemaining = 0;
     }
     void ResetAllButtons()
     {

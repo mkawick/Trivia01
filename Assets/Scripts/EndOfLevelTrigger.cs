@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EndOfLevelTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    GameManager gm = null;
     void Start()
     {
         
@@ -14,5 +15,10 @@ public class EndOfLevelTrigger : MonoBehaviour
     void Update()
     {
         
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("reach the end");
+        gm.OnScrollToEndReached();
     }
 }

@@ -743,7 +743,7 @@ PrefabInstance:
     - target: {fileID: 716207517314583971, guid: 38a240bdf643dc143b10e9d5f4530df2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.15
+      value: 1.275
       objectReference: {fileID: 0}
     - target: {fileID: 716207517314583971, guid: 38a240bdf643dc143b10e9d5f4530df2,
         type: 3}
@@ -1885,6 +1885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a72b4879a66c14c9fbc709ec99a321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 1247449786}
 --- !u!65 &1158537646
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1992,6 +1993,8 @@ MonoBehaviour:
   howLongToCelebrate: 5
   rewardWall: {fileID: 1285210115}
   questionManager: {fileID: 1247449788}
+  man: {fileID: 1029831598}
+  scroller: {fileID: 1976682188}
 --- !u!4 &1247449787
 Transform:
   m_ObjectHideFlags: 0
@@ -2018,6 +2021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c593182f7234124d977cdfb8dad81a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1268673311}
   questionButton: {fileID: 725335115}
   submitButton: {fileID: 269822405}
   buttons:

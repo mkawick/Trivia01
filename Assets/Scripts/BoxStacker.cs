@@ -19,7 +19,7 @@ public class BoxStacker : MonoBehaviour
     [SerializeField]
     Transform ground = null;
 
-    bool isGravityOn = true;
+    //bool isGravityOn = true;
     Vector3 positionTracker;
     float boxHeight = 0;
 
@@ -132,13 +132,13 @@ public class BoxStacker : MonoBehaviour
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(false);
-        isGravityOn = false;
+        //isGravityOn = false;
     }
     internal void BackDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(true);
-        isGravityOn = true;
+        //isGravityOn = true;
 
         var listOfKin = GetComponentsInChildren<RaycastBox>();
         foreach (var box in boxesSpawned)

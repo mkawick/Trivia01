@@ -13,8 +13,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     QuestionManager questionManager = null;
 
+    [SerializeField]
+    PlayerWithCollider man = null;
+
     bool isAwaitingNextQuestion = true;
     float timeBeforeCreatingNextQuestion = 0;
+
+    [SerializeField]
+    LevelScroller scroller = null;
+
+    enum GameState
+    {
+        Intro, TakingQuestions, Scrolling
+    }
+    GameState gameState = GameState.Intro;
 
     private void Awake()
     {
@@ -30,6 +42,29 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch(gameState)
+        {
+            case GameState.Intro:
+                scroller.scrollingEnabled = false;
+                gameState = GameState.TakingQuestions;
+                GetComponent<QuestionManager>().EnableQuestions(true);
+                GetComponent<QuestionManager>().StartRounds(3); // << magic number
+                man.initialState = true;
+                gameState = GameState.TakingQuestions;
+                break;
+            case GameState.TakingQuestions:
+                if(GetComponent<QuestionManager>().numQuestionsRemaining == 0)
+                {
+                    // paused need to happen here.. new game state
+                    gameState = GameState.Scrolling;
+                    scroller.scrollingEnabled = true;
+                    GetComponent<QuestionManager>().EnableQuestions(false);
+                    man.initialState = false;
+                }
+                break;
+            case GameState.Scrolling:
+                break;
+        }
         if (isAwaitingNextQuestion == true)
         {
             if(timeBeforeCreatingNextQuestion < Time.time)
@@ -40,5 +75,12 @@ public class GameManager : MonoBehaviour
         }
     }
     
-   
+    internal void OnPlayerTouchesDown()
+    {
+        gameState = GameState.Intro;
+    }
+    internal void OnScrollToEndReached()
+    {
+        gameState = GameState.Intro;
+    }
 }
