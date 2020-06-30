@@ -8,7 +8,7 @@ using UnityEngine.Animations;
 public class RaycastBox : MonoBehaviour
 {
     float boxHeight = 0;
-    private LayerMask supportBlockLayer, barrierLayer;
+    private LayerMask supportBlockLayer, barrierLayer, groundLayer;
     public bool barrierIsHit { get; set; }
 
     Transform[] raycastPoints;
@@ -27,6 +27,7 @@ public class RaycastBox : MonoBehaviour
         raycastPoints = transforms.ToArray();*/
         supportBlockLayer = LayerMask.GetMask("SupportBlock");
         barrierLayer = LayerMask.GetMask("Barriers");
+        groundLayer = LayerMask.GetMask("Ground");
         barrierIsHit = false;
     }
 
@@ -70,7 +71,8 @@ public class RaycastBox : MonoBehaviour
 
         if (didHit)
         {
-            if (hit.transform.gameObject.layer == supportBlockLayer)
+            int layer = 1 << hit.transform.gameObject.layer;
+            if (layer == supportBlockLayer)
             {
                 Debug.Log("support");
 
@@ -129,9 +131,19 @@ public class RaycastBox : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(1<<collision.gameObject.layer == barrierLayer)
+        int layer = 1 << collision.gameObject.layer;
+        if (layer == barrierLayer)
         {
             boxStacker.BoxHitBarrier(this);
+        }
+        if (layer == groundLayer)
+        {
+            //boxStacker.BoxHitBarrier(this);
+            boxStacker.BoxHitGround(this);
+        }
+        if (layer == supportBlockLayer)
+        {
+            boxStacker.BoxHitOtherBlock(this);
         }
     }
 }

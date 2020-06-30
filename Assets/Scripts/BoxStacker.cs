@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class BoxStacker : MonoBehaviour
     [SerializeField]
     Transform ground = null;
 
+    bool isGravityOn = true;
     Vector3 positionTracker;
     float boxHeight = 0;
 
@@ -128,11 +130,19 @@ public class BoxStacker : MonoBehaviour
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(false);
+        isGravityOn = false;
     }
     internal void BackRayHitCollider()
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(true);
+        isGravityOn = true;
+
+        var listOfKin = GetComponentsInChildren<RaycastBox>();
+        foreach (var box in boxesSpawned)
+        {
+            box.GetComponent<Rigidbody>().useGravity = true;
+        }
     }
 
     internal void BoxHitBarrier(RaycastBox box)
@@ -140,5 +150,16 @@ public class BoxStacker : MonoBehaviour
         box.transform.parent = ground;
         box.isImmobile = true;
         box.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    internal  void BoxHitGround(RaycastBox box)
+    {
+        box.GetComponent<Rigidbody>().useGravity = false;
+        box.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+    internal void BoxHitOtherBlock(RaycastBox box)
+    {
+        box.GetComponent<Rigidbody>().useGravity = false;
+        box.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }
