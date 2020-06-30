@@ -66,7 +66,7 @@ public class RaycastBox : MonoBehaviour
             transform = raycastDownRear;
 
 
-        float maxDist = 0.8f ;
+        float maxDist = boxHeight/2+0.05f;
         bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
 
         if (didHit)
@@ -84,7 +84,8 @@ public class RaycastBox : MonoBehaviour
                 // Do whatever you want
             }
         }
-        Debug.DrawRay(transform.position, Vector3.down, Color.red);
+        Debug.DrawLine(transform.position, transform.position + Vector3.down * maxDist, Color.red);
+        //Debug.DrawRay(transform.position, Vector3.down, Color.red);
         if (didHit)
             return true;
 
@@ -105,7 +106,7 @@ public class RaycastBox : MonoBehaviour
         if (DetectBelow(true) == true)
         {
             SetColor(Color.white);
-            boxStacker.FrontRayHitCollider();
+            boxStacker.FrontDownwardRayHitCollider();
             gameObject.AddComponent<PositionConstraint>();
         /*    var comp = GetComponent<PositionConstraint>();
             comp.constraintActive = true;
@@ -122,7 +123,7 @@ public class RaycastBox : MonoBehaviour
             {
                 isWaitingToPassBarrier = false;
                 SetColor(Color.green);
-                boxStacker.BackRayHitCollider();
+                boxStacker.BackDownwardRayHitCollider();
                 var comp = GetComponent<PositionConstraint>();
                 Destroy(comp);
             }

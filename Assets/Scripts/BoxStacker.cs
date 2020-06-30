@@ -110,7 +110,7 @@ public class BoxStacker : MonoBehaviour
             obj.GetComponent<RaycastBox>().boxStacker = this;
             yield return new WaitForSeconds(timeBetweenEachBoxSpawned);
             obj.GetComponent<Rigidbody>().isKinematic = false;
-            obj.GetComponent<Rigidbody>().useGravity = true;
+            obj.GetComponent<Rigidbody>().useGravity = false;
         }
         yield return new WaitForSeconds(0.05f);
         //man.EnableGravity(false);
@@ -126,13 +126,13 @@ public class BoxStacker : MonoBehaviour
         boxesSpawned.Clear();
     }
 
-    internal void FrontRayHitCollider()
+    internal void FrontDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(false);
         isGravityOn = false;
     }
-    internal void BackRayHitCollider()
+    internal void BackDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
         man.EnableGravity(true);
@@ -154,11 +154,17 @@ public class BoxStacker : MonoBehaviour
 
     internal  void BoxHitGround(RaycastBox box)
     {
+        //return;
         box.GetComponent<Rigidbody>().useGravity = false;
         box.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        foreach (var b in boxesSpawned)
+        {
+            b.GetComponent<Rigidbody>().useGravity = false;
+        }
     }
     internal void BoxHitOtherBlock(RaycastBox box)
     {
+        return;
         box.GetComponent<Rigidbody>().useGravity = false;
         box.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
