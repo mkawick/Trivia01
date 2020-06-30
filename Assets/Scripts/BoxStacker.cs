@@ -27,7 +27,7 @@ public class BoxStacker : MonoBehaviour
     float timeBetweenEachBoxSpawned = 0.15f;
 
     List<GameObject> boxesSpawned;
-    private LayerMask raycastBoxLayer = 0, levelLayer = 0;
+    private LayerMask raycastBoxLayer = 0, levelLayer = 0, supportBlockLayer =0;
 
     bool updateSpawnPosition = false;
 
@@ -38,6 +38,7 @@ public class BoxStacker : MonoBehaviour
         boxesSpawned = new List<GameObject>();
         raycastBoxLayer = LayerMask.GetMask("Barriers");
         levelLayer = LayerMask.GetMask("Ground");
+        supportBlockLayer = LayerMask.GetMask("SupportBlock");
         //int value = 1<<LayerMask.NameToLayer("Ground");
     }
 
@@ -51,17 +52,18 @@ public class BoxStacker : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 pos = positionTracker;
-        float gap = 1.2f;
+        float gap = 8.2f;
         pos.y += gap;
-        int combinedMask = raycastBoxLayer | levelLayer;
+        int combinedMask = (supportBlockLayer | levelLayer);
 
         if (Physics.Raycast(pos, Vector3.down, out hit, gap*2, combinedMask) == true)
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            int layer = hit.transform.gameObject.layer;
+            if (layer == LayerMask.NameToLayer("Ground"))
             {
                 positionTracker = spawnPoint.transform.position;
             }
-            else
+            else if(layer == LayerMask.GetMask("SupportBlock"))
             {
                 positionTracker = hit.point;
                 positionTracker.y += 0.05f;
