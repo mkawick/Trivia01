@@ -52,6 +52,10 @@ public class QuestionManager : MonoBehaviour
     internal void EnableQuestions(bool enable)
     {
         allowingQuestions = enable;
+        if(canvas != null)
+        {
+            canvas.SetActive(enable);
+        }
     }
     internal void StartRounds(int numRounds)
     {

@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
                 GetComponent<QuestionManager>().StartRounds(3); // << magic number
                 man.initialState = true;
                 gameState = GameState.TakingQuestions;
+               // GetComponent<QuestionManager>().
                 
                 break;
             case GameState.TakingQuestions:
