@@ -1895,7 +1895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   howLongToCelebrate: 5
-  rewardWall: {fileID: 0}
+  rewardWall: {fileID: 1285210115}
   questionManager: {fileID: 1247449788}
   man: {fileID: 1029831598}
   scroller: {fileID: 1976682188}
@@ -3103,6 +3103,7 @@ MonoBehaviour:
   placeToStackBoxes: {fileID: 1815981028}
   man: {fileID: 1029831598}
   ground: {fileID: 1976682184}
+  useDebugColors: 0
   timeBetweenEachBoxSpawned: 0.15
 --- !u!4 &2073014457
 Transform:

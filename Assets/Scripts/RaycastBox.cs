@@ -72,7 +72,7 @@ public class RaycastBox : MonoBehaviour
         if (didHit)
         {
             int layer = 1 << hit.transform.gameObject.layer;
-            if (layer == supportBlockLayer)
+         /*   if (layer == supportBlockLayer)
             {
                 Debug.Log("support");
 
@@ -82,10 +82,10 @@ public class RaycastBox : MonoBehaviour
             {
                 Debug.Log("barrierLayer");
                 // Do whatever you want
-            }
+            }*/
         }
-        Debug.DrawLine(transform.position, transform.position + Vector3.down * maxDist, Color.red);
-        //Debug.DrawRay(transform.position, Vector3.down, Color.red);
+        if(boxStacker.useDebugColors == true)
+            Debug.DrawLine(transform.position, transform.position + Vector3.down * maxDist, Color.red);
         if (didHit)
             return true;
 
@@ -94,7 +94,8 @@ public class RaycastBox : MonoBehaviour
 
     void SetColor(Color color)
     {
-        GetComponent<MeshRenderer>().material.color = color;
+        if (boxStacker.useDebugColors == true)
+            GetComponent<MeshRenderer>().material.color = color;
     }
 
     private void Update()

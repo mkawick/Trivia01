@@ -22,6 +22,8 @@ public class BoxStacker : MonoBehaviour
     //bool isGravityOn = true;
     Vector3 positionTracker;
     float boxHeight = 0;
+    [SerializeField]
+    public bool useDebugColors = false;
 
     [SerializeField]
     float timeBetweenEachBoxSpawned = 0.15f;
