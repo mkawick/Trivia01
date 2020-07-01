@@ -6,12 +6,13 @@ using UnityEngine.UIElements;
 public class RewardWall : MonoBehaviour
 {
     [SerializeField]
-    Material[] listOfMaterials;
-    [SerializeField]
     GameObject baseWallPiece = null;
     [SerializeField]
     GameObject wallPiece = null;
     GameObject brickPlaceholder = null;
+
+    [SerializeField]
+    bool allowCreateWall = true;
 
     List<GameObject> constructedPieces;
     [SerializeField, Range(0.25f, 1.0f)]
@@ -41,33 +42,34 @@ public class RewardWall : MonoBehaviour
 
     public void BuildWall(int numPieces)
     {
-        if(constructedPieces != null)
+        if (allowCreateWall == true)
         {
-            foreach(var wallPiece in constructedPieces)
+            if (constructedPieces != null)
             {
-                Destroy(wallPiece);
+                foreach (var wallPiece in constructedPieces)
+                {
+                    Destroy(wallPiece);
+                }
             }
-        }
-        constructedPieces = new List<GameObject>(); 
-        float height = baseWallPiece.GetComponent<MeshRenderer>().bounds.extents.y ;
+            constructedPieces = new List<GameObject>();
+            float height = baseWallPiece.GetComponent<MeshRenderer>().bounds.extents.y;
 
-        Vector3 position = GetTopOfStand();
-        GameObject obj = CreateWallPiece(wallPiece, position, 0, scaleOfWallPieces);
-        height = obj.GetComponent<MeshRenderer>().bounds.extents.y * 2;
-        obj.transform.position += new Vector3(0, height / 2, 0);
-        position = obj.transform.position;
+            Vector3 position = GetTopOfStand();
+            GameObject obj = CreateWallPiece(wallPiece, position, 0, scaleOfWallPieces);
+            height = obj.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+            obj.transform.position += new Vector3(0, height / 2, 0);
+            position = obj.transform.position;
 
-        for (int i = 1; i < numPieces; i++)
-        {
+            for (int i = 1; i < numPieces; i++)
+            {
+                position.y += height;
+                obj = CreateWallPiece(wallPiece, position, i, scaleOfWallPieces);
+            }
             position.y += height;
-            obj = CreateWallPiece(wallPiece, position, i, scaleOfWallPieces);
-        }
-        position.y += height;
-        GameObject obj2 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces-0.05f);
-        obj2.GetComponent<MeshRenderer>().material.color = Color.white;
+            GameObject obj2 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces - 0.05f);
+            obj2.GetComponent<MeshRenderer>().material.color = Color.white;
 
-       // position.y += 1;
-       /// GameObject obj3 = CreateWallPiece(baseWallPiece, position, 0, scaleOfWallPieces - 0.05f);
+        }
     }
 
     Vector3 GetTopOfStand()

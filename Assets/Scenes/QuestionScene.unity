@@ -2102,9 +2102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36c7e381c920eb44a52353cc5014b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfMaterials: []
   baseWallPiece: {fileID: 601223507}
   wallPiece: {fileID: 601223507}
+  allowCreateWall: 0
   scaleOfWallPieces: 0.95
 --- !u!65 &1285210116
 BoxCollider:
