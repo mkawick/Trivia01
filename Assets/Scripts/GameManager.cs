@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float howLongToCelebrate = 5;
     [SerializeField]
+    int numQuestions = 3;
+    [SerializeField]
     RewardWall rewardWall = null;
     [SerializeField]
     QuestionManager questionManager = null;
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
                     scroller.Reset();
                     gameState = GameState.TakingQuestions;
                     GetComponent<QuestionManager>().EnableQuestions(true);
-                    GetComponent<QuestionManager>().StartRounds(3); // << magic number
+                    GetComponent<QuestionManager>().StartRounds(numQuestions); 
                     man.initialState = true;
                     
                     gameState = GameState.ShowSplashScreen;
