@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db71c17c35765a428398d391ccd6402, type: 3}
   m_Name: TriviaQuestion 003
   m_EditorClassIdentifier: 
-  question: Pick 3 Capital Cities
+  question: Which 3 are Capital Cities?
   levelOfDifficulty: 1
   numOptions: 5
   numAnswersNeeded: 3
   correctAnswers:
   - London
-  - Jerusalem
   - Washington D.C.
   - Paris
   - Beijing

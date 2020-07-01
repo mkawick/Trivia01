@@ -795,7 +795,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91c8078d0a1b24147a0435aee56ef1c7, type: 2}
+  - {fileID: 2100000, guid: 170ca94460c2d40a587999fe5e799ec1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -922,10 +922,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 54
+  m_fontSize: 72
   m_fontSizeBase: 54
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -960,7 +960,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 179.97581, y: 0, z: 183.7253, w: 0}
   m_textInfo:
     textComponent: {fileID: 604757621}
     characterCount: 6
@@ -1934,8 +1934,8 @@ MonoBehaviour:
   - {fileID: 420148144}
   - {fileID: 1760012217}
   - {fileID: 981313672}
-  buttonHighlightColor: {r: 1, g: 0.55054843, b: 0.2235294, a: 0.7019608}
-  correctAnswerHighlightColor: {r: 0.19241722, g: 0.8679245, b: 0.29150474, a: 0.7647059}
+  buttonHighlightColor: {r: 0, g: 0.90588236, b: 0.18266344, a: 0.7019608}
+  correctAnswerHighlightColor: {r: 0, g: 0.69411767, b: 0.06589508, a: 0.7647059}
   incorrectAnswerHighlightColor: {r: 0.990566, g: 0.07008721, b: 0.07008721, a: 0.78039217}
   howLongToCelebrate: 4
   autoComplete: 1
