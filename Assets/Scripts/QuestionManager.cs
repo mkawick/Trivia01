@@ -32,6 +32,9 @@ public class QuestionManager : MonoBehaviour
     bool allowingQuestions = false;
     internal int numQuestionsRemaining = 0;
 
+    [SerializeField]
+    ParticleSystem singleQuestionCelebration = null;
+
     private void Awake()
     {
         LoadQuestions();
@@ -201,6 +204,9 @@ public class QuestionManager : MonoBehaviour
         if (numQuestionsRemaining < 0)
             numQuestionsRemaining = 0;
         currentQuestion = invalidQuestion;
+
+        if (singleQuestionCelebration != null)
+            singleQuestionCelebration.Play();
     }
 
     int CountCorrectItems(int currentQuestion)

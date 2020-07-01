@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     LevelScroller scroller = null;
+    [SerializeField]
+    ParticleSystem celebrationWhenPlayerTouchesDown = null;
+    [SerializeField]
+    ParticleSystem celebrationIfPlayerFinishesLevel = null;
 
     enum GameState
     {
@@ -95,14 +99,18 @@ public class GameManager : MonoBehaviour
     internal void OnPlayerTouchesDown()
     {
         ChangeStateToWaitingAtEnd();
-        // todo, add celebration here
+
+        if (celebrationWhenPlayerTouchesDown != null)
+            celebrationWhenPlayerTouchesDown.Play();
     }
     internal void OnScrollToEndReached()
     {
         ChangeStateToWaitingAtEnd();
-        // todo, add celebration here
 
-    }
+        if (celebrationIfPlayerFinishesLevel != null)
+            celebrationIfPlayerFinishesLevel.Play();
+
+}
 
     void ChangeStateToWaitingAtEnd()
     {
