@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     enum GameState
     {
-        Intro, TakingQuestions, Scrolling, WaitingAtEnd
+        Intro, ShowSplashScreen, TakingQuestions, Scrolling, WaitingAtEnd
     }
     GameState gameState = GameState.Intro;
 
@@ -44,16 +44,28 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.Intro:
-                scroller.scrollingEnabled = false;
-                scroller.Reset();
-                gameState = GameState.TakingQuestions;
-                GetComponent<QuestionManager>().EnableQuestions(true);
-                GetComponent<QuestionManager>().StartRounds(3); // << magic number
-                man.initialState = true;
-                gameState = GameState.TakingQuestions;
-               // GetComponent<QuestionManager>().
-                
+                {
+                    scroller.scrollingEnabled = false;
+                    scroller.Reset();
+                    gameState = GameState.TakingQuestions;
+                    GetComponent<QuestionManager>().EnableQuestions(true);
+                    GetComponent<QuestionManager>().StartRounds(3); // << magic number
+                    man.initialState = true;
+                    
+                    gameState = GameState.ShowSplashScreen;
+                    timeBeforeCreatingNextQuestion = Time.time + 0.1f;
+                    // Todo: Intro hook
+                }
                 break;
+            case GameState.ShowSplashScreen:
+                {
+                    if (timeBeforeCreatingNextQuestion < Time.time)
+                    {
+                        gameState = GameState.TakingQuestions;
+                    }
+                }
+                break;
+
             case GameState.TakingQuestions:
                 if (GetComponent<QuestionManager>().numQuestionsRemaining == 0)
                 {
@@ -97,5 +109,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.WaitingAtEnd;
         timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
         scroller.scrollingEnabled = false;
+        // Todo: Outro hook
+
     }
 }
