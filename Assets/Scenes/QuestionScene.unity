@@ -12581,6 +12581,7 @@ GameObject:
   - component: {fileID: 716207518278590649}
   - component: {fileID: 1029831601}
   - component: {fileID: 1029831598}
+  - component: {fileID: 716207516793118247}
   m_Layer: 0
   m_Name: M_civilian_10
   m_TagString: Untagged
@@ -12588,6 +12589,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &716207516793118247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716207516793118246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb9aad1b22716449be2752b80cd8caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInIdle: 4
+  varianceInIdle: 1
+  timeInNonIdle: 0.75
+  varianceNonIdle: 0.25
 --- !u!1 &716207516793118576
 GameObject:
   m_ObjectHideFlags: 0

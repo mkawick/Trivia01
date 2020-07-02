@@ -5,16 +5,6 @@ using UnityEngine;
 public class PlayerWithCollider : MonoBehaviour
 {
     internal bool initialState = true;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     internal void Reset()
     {

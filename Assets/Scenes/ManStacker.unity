@@ -481,6 +481,10 @@ MonoBehaviour:
   boxes: {fileID: 1328436026}
   colors: []
   spawnPoint: {fileID: 1726961687}
+  placeToStackBoxes: {fileID: 0}
+  man: {fileID: 0}
+  ground: {fileID: 0}
+  useDebugColors: 0
   timeBetweenEachBoxSpawned: 0.15
 --- !u!4 &705125214
 Transform:
@@ -768,6 +772,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d96534576d8d4be4884985f038c6d2c6, type: 3}
+--- !u!1 &1647213599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 716207517314877847, guid: 38a240bdf643dc143b10e9d5f4530df2,
+    type: 3}
+  m_PrefabInstance: {fileID: 716207516646024614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1647213600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647213599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb9aad1b22716449be2752b80cd8caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInIdle: 4
+  varianceInIdle: 1
+  timeInNonIdle: 0.75
+  varianceNonIdle: 0.25
 --- !u!1 &1704261932 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4165941235438384953, guid: d96534576d8d4be4884985f038c6d2c6,
@@ -1039,9 +1065,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36c7e381c920eb44a52353cc5014b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfMaterials: []
   baseWallPiece: {fileID: 1899253872}
   wallPiece: {fileID: 1328436026}
+  allowCreateWall: 1
   scaleOfWallPieces: 0.95
 --- !u!1001 &716207516646024614
 PrefabInstance:
