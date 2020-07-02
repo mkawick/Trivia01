@@ -18,23 +18,41 @@ public class PlayerWithCollider : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // game over on BarrierCollider
-        // Celebration at the end zones
+        int mask = LayerMask.NameToLayer("SupportBlock");
+        if (collision.gameObject.layer == mask)
+        {
+            initialState = false;
+            return;
+        }
         if (initialState)
             return;
-        int mask = LayerMask.NameToLayer("Ground");
+        mask = LayerMask.NameToLayer("Ground");
         if (collision.gameObject.layer == mask)
         {
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             gm.OnPlayerTouchesDown();
         }
+        
         mask = LayerMask.NameToLayer("Barriers");
         if (collision.gameObject.layer == mask)
         {
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gm.OnPlayerTouchesDown();// todo
+            gm.OnPlayerHitsBarrier();
         }
     }
+   /* bool DetectBarrierAhead()
+    {
+        int mask = LayerMask.NameToLayer("Barriers");
+        RaycastHit hit;
+        bool didHit = Physics.Raycast(transform.position, Vector3.forward, out hit, 0.2f, mask);
+
+        if (didHit)
+        {
+            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+            gm.OnPlayerHitsBarrier();
+        }
+        return didHit;
+    }*/
 
     internal void EnableGravity(bool enable)
     {

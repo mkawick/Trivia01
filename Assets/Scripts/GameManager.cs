@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -54,26 +55,12 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Intro:
                 {
-
-                    scroller.Reset();
-                    scroller.scrollingEnabled = alwaysScrolls;
-
-                    gameState = GameState.TakingQuestions;
-                    GetComponent<QuestionManager>().EnableQuestions(true);
-                    GetComponent<QuestionManager>().StartRounds(numQuestions); 
-                    man.initialState = true;
-                    
-                    gameState = GameState.ShowSplashScreen;
-                    timeBeforeCreatingNextQuestion = Time.time + 0.1f;
-                    // Todo: Intro hook
+                    SetupIntroState();
                 }
                 break;
             case GameState.ShowSplashScreen:
                 {
-                    if (timeBeforeCreatingNextQuestion < Time.time)
-                    {
-                        gameState = GameState.TakingQuestions;
-                    }
+                    ShowSplashScreen();
                 }
                 break;
 
@@ -98,11 +85,33 @@ public class GameManager : MonoBehaviour
                     //scroller.scrollingEnabled = true;
                     var boxStacker = (BoxStacker)FindObjectOfType(typeof(BoxStacker));
                     boxStacker.Reset();
+                    //GetComponent<QuestionManager>()
                 }
                 break;
         }
     }
-    
+
+    private void SetupIntroState()
+    {
+        scroller.Reset();
+        scroller.scrollingEnabled = alwaysScrolls;
+
+        gameState = GameState.TakingQuestions;
+        GetComponent<QuestionManager>().EnableQuestions(true);
+        GetComponent<QuestionManager>().StartRounds(numQuestions);
+        man.initialState = true;
+
+        gameState = GameState.ShowSplashScreen;
+        timeBeforeCreatingNextQuestion = Time.time + 0.1f;
+    }
+    private void ShowSplashScreen()
+    {
+        if (timeBeforeCreatingNextQuestion < Time.time)
+        {
+            gameState = GameState.TakingQuestions;
+        }
+    }
+
     internal void OnPlayerTouchesDown()
     {
         ChangeStateToWaitingAtEnd();
@@ -116,8 +125,14 @@ public class GameManager : MonoBehaviour
 
         if (celebrationIfPlayerFinishesLevel != null)
             celebrationIfPlayerFinishesLevel.Play();
+    }
+    internal void OnPlayerHitsBarrier()
+    {
+        ChangeStateToWaitingAtEnd();
 
-}
+        if (celebrationIfPlayerFinishesLevel != null)
+            celebrationIfPlayerFinishesLevel.Play();
+    }
 
     void ChangeStateToWaitingAtEnd()
     {

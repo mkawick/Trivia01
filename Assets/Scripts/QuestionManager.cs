@@ -150,8 +150,7 @@ public class QuestionManager : MonoBehaviour
                 {
                     isAwaitingNextQuestion = false;
                     timeBeforeCreatingNextQuestion = 0;
-                    ResetAllButtons();
-                    NextQuestion();
+                    Reset();
                 }
             }
         }
@@ -170,6 +169,14 @@ public class QuestionManager : MonoBehaviour
             rewardWall.BuildWall(6);
         }*/
     }
+
+    internal void Reset()
+    {
+        ResetAllButtons();
+        NextQuestion();
+    }
+
+
 
     private void CheckAutoComplete()
     {
