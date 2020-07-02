@@ -28,6 +28,12 @@ public class PlayerWithCollider : MonoBehaviour
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             gm.OnPlayerTouchesDown();
         }
+        mask = LayerMask.NameToLayer("Barriers");
+        if (collision.gameObject.layer == mask)
+        {
+            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+            gm.OnPlayerTouchesDown();// todo
+        }
     }
 
     internal void EnableGravity(bool enable)

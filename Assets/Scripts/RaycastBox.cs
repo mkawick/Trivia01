@@ -108,7 +108,7 @@ public class RaycastBox : MonoBehaviour
         {
             SetColor(Color.white);
             boxStacker.FrontDownwardRayHitCollider();
-            gameObject.AddComponent<PositionConstraint>();
+            //gameObject.AddComponent<PositionConstraint>();
         /*    var comp = GetComponent<PositionConstraint>();
             comp.constraintActive = true;
             comp.AddSource(this);*/
@@ -125,8 +125,8 @@ public class RaycastBox : MonoBehaviour
                 isWaitingToPassBarrier = false;
                 SetColor(Color.green);
                 boxStacker.BackDownwardRayHitCollider();
-                var comp = GetComponent<PositionConstraint>();
-                Destroy(comp);
+             /*   var comp = GetComponent<PositionConstraint>();
+                Destroy(comp);*/
             }
         }
     }

@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     ParticleSystem celebrationIfPlayerFinishesLevel = null;
 
+    [SerializeField]
+    bool alwaysScrolls = false;
+
     enum GameState
     {
         Intro, ShowSplashScreen, TakingQuestions, Scrolling, WaitingAtEnd
@@ -51,8 +54,10 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Intro:
                 {
-                    scroller.scrollingEnabled = false;
+
                     scroller.Reset();
+                    scroller.scrollingEnabled = alwaysScrolls;
+
                     gameState = GameState.TakingQuestions;
                     GetComponent<QuestionManager>().EnableQuestions(true);
                     GetComponent<QuestionManager>().StartRounds(numQuestions); 

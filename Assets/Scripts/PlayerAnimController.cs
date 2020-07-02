@@ -44,6 +44,9 @@ class PlayerAnimController : MonoBehaviour
     }
     void PlayAnim(AnimationPlay clip)
     {
+        if (animator == null)
+            return;
+
         switch (clip)
         {
 
