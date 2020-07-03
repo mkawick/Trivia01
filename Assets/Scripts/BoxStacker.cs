@@ -61,11 +61,13 @@ public class BoxStacker : MonoBehaviour
         if (Physics.Raycast(pos, Vector3.down, out hit, gap*2, combinedMask) == true)
         {
             int layer = hit.transform.gameObject.layer;
+            //int blockMask = LayerMask.GetMask("SupportBlock");
+            //int groundMask = LayerMask.NameToLayer("Ground");
             if (layer == LayerMask.NameToLayer("Ground"))
             {
                 positionTracker = spawnPoint.transform.position;
             }
-            else if(layer == LayerMask.GetMask("SupportBlock"))
+            else if(layer == LayerMask.NameToLayer("SupportBlock"))
             {
                 positionTracker = hit.point;
                 positionTracker.y += 0.05f;
@@ -79,7 +81,7 @@ public class BoxStacker : MonoBehaviour
 
         positionTracker = spawnPoint.transform.position;
         RaycastHit hit;
-        Physics.Raycast(positionTracker, Vector3.down, out hit, 2);
+        Physics.Raycast(positionTracker, Vector3.down, out hit, 2, levelLayer);
         // add 1/2 height to it.
         positionTracker = hit.point;
         positionTracker.y += boxHeight / 2 + 0.01f;
