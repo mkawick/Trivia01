@@ -34,6 +34,7 @@ public class LevelScroller : MonoBehaviour
                 transform.position -= runwayStartPosition;
                 initialPosition = transform.position;
                 runway.transform.position -= runwayStartPosition;
+                runwayStartPosition = runway.transform.position;
             }
         }
     }
@@ -50,6 +51,10 @@ public class LevelScroller : MonoBehaviour
     internal void Reset()
     {
         transform.position = initialPosition;
+        if (runway != null)
+        {
+            runway.transform.position = runwayStartPosition;
+        }
         scrollingEnabled = false;
     }
 
