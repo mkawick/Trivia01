@@ -6,13 +6,30 @@ public class LevelScroller : MonoBehaviour
 {
     [SerializeField]
     float speed = 0.5f;
+    [SerializeField]
+    GameObject runway = null;
 
     Vector3 initialPosition;
+    Vector3 runwayInitialPosition;
 
     internal bool scrollingEnabled = true;
+    public bool useRunway = false;
     void Start()
     {
         initialPosition = transform.position;
+        if(runway != null)
+        {
+            GameObject runwayStart = Utils.GetChildWithName(runway, "RunwayStart");
+            runwayInitialPosition = runwayStart.transform.position;
+            runwayInitialPosition.y = initialPosition.y;
+            runwayStart.transform.position = runwayInitialPosition;
+            if (useRunway)
+            {
+                transform.position -= runwayInitialPosition;
+                initialPosition = transform.position;
+                runway.transform.position -= runwayInitialPosition;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -32,9 +49,16 @@ public class LevelScroller : MonoBehaviour
 
     void NormalScroll()
     {
+        float offset = speed * Time.deltaTime;
         Vector3 pos = transform.position;
-        pos.z -= speed * Time.deltaTime;
+        pos.z -= offset;
         transform.position = pos;
+        if (runway != null)
+        {
+            pos = runway.transform.position;
+            pos.z -= offset;
+            runway.transform.position = pos;
+        }
     }
 
     void TestingScroll()

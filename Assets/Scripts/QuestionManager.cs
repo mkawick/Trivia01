@@ -48,6 +48,9 @@ public class QuestionManager : MonoBehaviour
         {
             foreach (var button in buttons)
             {
+                if (button == null)
+                    continue;
+
                 var ab = button.GetComponent<AnswerButton>();
                 ab.highlightColor = buttonHighlightColor;
                 ab.correctAnswerHighlightColor = correctAnswerHighlightColor;
@@ -93,7 +96,8 @@ public class QuestionManager : MonoBehaviour
         currentQuestion = GetQuestion(selection);
 
         TriviaQuestion tq = questionMap[currentQuestion];
-        questionButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = tq.question;
+        if(questionButton != null)
+            questionButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = tq.question;
 
 
         var buttonList = PutAllButtonsInAList(tq.numOptions);
@@ -110,6 +114,8 @@ public class QuestionManager : MonoBehaviour
         for (int i = 0; i < numToSelect; i++)
         {
             Button b = buttonList[UnityEngine.Random.Range(0, buttonList.Count)];
+            if (b == null)
+                continue;
             string answer = answers[UnityEngine.Random.Range(0, answers.Count)];
 
             b.GetComponentInChildren<AnswerButton>().Answer = answer;
@@ -146,7 +152,7 @@ public class QuestionManager : MonoBehaviour
         {
             if (isAwaitingNextQuestion == true)
             {
-                if (timeBeforeCreatingNextQuestion < Time.time)
+                if (Utils.HasExpired(timeBeforeCreatingNextQuestion))
                 {
                     isAwaitingNextQuestion = false;
                     timeBeforeCreatingNextQuestion = 0;
@@ -156,12 +162,12 @@ public class QuestionManager : MonoBehaviour
         }
         if(autoComplete)
         {
-            submitButton.gameObject.SetActive(false);
+            submitButton?.gameObject.SetActive(false);
             CheckAutoComplete();
         }
         else
         {
-            submitButton.gameObject.SetActive(true);
+            submitButton?.gameObject.SetActive(true);
         }
 
      /*   if (Input.GetKeyUp(KeyCode.B) == true)
@@ -259,7 +265,7 @@ public class QuestionManager : MonoBehaviour
         {
             foreach (var button in buttons)
             {
-                button.GetComponent<AnswerButton>().Reset();
+                button?.GetComponent<AnswerButton>().Reset();
             }
         }
     }

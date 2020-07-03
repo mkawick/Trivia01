@@ -67,17 +67,23 @@ public class GameManager : MonoBehaviour
             case GameState.TakingQuestions:
                 if (GetComponent<QuestionManager>().numQuestionsRemaining == 0)
                 {
-                    // paused need to happen here.. new game state
+                    timeBeforeCreatingNextQuestion = Time.time;
+                    if(alwaysScrolls == false)
+                        timeBeforeCreatingNextQuestion += 1.0f;
                     gameState = GameState.Scrolling;
-                    scroller.scrollingEnabled = true;
+                }
+                break;
+            case GameState.Scrolling:
+                if (Utils.HasExpired(timeBeforeCreatingNextQuestion))
+                {
+                    if(scroller != null)
+                        scroller.scrollingEnabled = true;
                     GetComponent<QuestionManager>().EnableQuestions(false);
                     man.initialState = false;
                 }
                 break;
-            case GameState.Scrolling:
-                break;
             case GameState.WaitingAtEnd:
-                if (timeBeforeCreatingNextQuestion < Time.time)
+                if (Utils.HasExpired(timeBeforeCreatingNextQuestion))
                 {
                     //isAwaitingNextQuestion = false;
                     timeBeforeCreatingNextQuestion = 0;
@@ -93,12 +99,16 @@ public class GameManager : MonoBehaviour
 
     private void SetupIntroState()
     {
-        scroller.Reset();
-        scroller.scrollingEnabled = alwaysScrolls;
+        if (scroller)
+        {
+            scroller.Reset();
+            scroller.scrollingEnabled = alwaysScrolls;
+        }
 
         gameState = GameState.TakingQuestions;
         GetComponent<QuestionManager>().EnableQuestions(true);
         GetComponent<QuestionManager>().StartRounds(numQuestions);
+        GetComponent<QuestionManager>().Reset();
         man.initialState = true;
 
         gameState = GameState.ShowSplashScreen;
@@ -106,7 +116,7 @@ public class GameManager : MonoBehaviour
     }
     private void ShowSplashScreen()
     {
-        if (timeBeforeCreatingNextQuestion < Time.time)
+        if (Utils.HasExpired(timeBeforeCreatingNextQuestion))
         {
             gameState = GameState.TakingQuestions;
         }
