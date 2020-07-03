@@ -35,12 +35,14 @@ public class BoxStacker : MonoBehaviour
 
     void Start()
     {
-        GetBasePositionAndBoxHeight();
-        boxes.gameObject.SetActive(false);
-        boxesSpawned = new List<GameObject>();
         raycastBoxLayer = LayerMask.GetMask("Barriers");
         levelLayer = LayerMask.GetMask("Ground");
         supportBlockLayer = LayerMask.GetMask("SupportBlock");
+
+        GetBasePositionAndBoxHeight();
+        boxes.gameObject.SetActive(false);
+        boxesSpawned = new List<GameObject>();
+        
         //int value = 1<<LayerMask.NameToLayer("Ground");
     }
 

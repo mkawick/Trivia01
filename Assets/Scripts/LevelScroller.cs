@@ -7,10 +7,12 @@ public class LevelScroller : MonoBehaviour
     [SerializeField]
     float speed = 0.5f;
     [SerializeField]
+    Transform playerStart = null;
+    [SerializeField]
     GameObject runway = null;
 
     Vector3 initialPosition;
-    Vector3 runwayInitialPosition;
+    Vector3 runwayStartPosition;
 
     internal bool scrollingEnabled = true;
     public bool useRunway = false;
@@ -19,15 +21,19 @@ public class LevelScroller : MonoBehaviour
         initialPosition = transform.position;
         if(runway != null)
         {
+            Debug.Assert(playerStart != null, "must assign player start for the runway feature");
             GameObject runwayStart = Utils.GetChildWithName(runway, "RunwayStart");
-            runwayInitialPosition = runwayStart.transform.position;
-            runwayInitialPosition.y = initialPosition.y;
-            runwayStart.transform.position = runwayInitialPosition;
+            runwayStartPosition = runwayStart.transform.position;
+            runwayStartPosition -= playerStart.position;
+            runwayStartPosition.y = initialPosition.y;
+
+            runwayStart.transform.position = runwayStartPosition;
             if (useRunway)
             {
-                transform.position -= runwayInitialPosition;
+                runwayStartPosition.y = 0;
+                transform.position -= runwayStartPosition;
                 initialPosition = transform.position;
-                runway.transform.position -= runwayInitialPosition;
+                runway.transform.position -= runwayStartPosition;
             }
         }
     }

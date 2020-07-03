@@ -202,7 +202,7 @@ PrefabInstance:
     - target: {fileID: 716207517314583971, guid: 38a240bdf643dc143b10e9d5f4530df2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.69
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 716207517314583971, guid: 38a240bdf643dc143b10e9d5f4530df2,
         type: 3}
@@ -928,7 +928,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264963887}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.05, z: -0.06}
+  m_LocalPosition: {x: -0, y: 0.05, z: -0.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2073014457}
@@ -1260,7 +1260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815981027}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.39}
+  m_LocalPosition: {x: 0, y: 0, z: -0.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2073014457}
@@ -1294,7 +1294,7 @@ Transform:
   m_GameObject: {fileID: 1820771093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.344, y: 1.5, z: -0.354}
-  m_LocalScale: {x: 0.12, y: 1, z: -0.06}
+  m_LocalScale: {x: 0.12, y: 1, z: 0.03}
   m_Children: []
   m_Father: {fileID: 2006116432}
   m_RootOrder: 1
@@ -1387,7 +1387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976682183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 7.51}
+  m_LocalPosition: {x: 0, y: 1, z: 8}
   m_LocalScale: {x: 3.8534, y: 0.3, z: 25}
   m_Children:
   - {fileID: 1158537649}
@@ -1470,6 +1470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+  playerStart: {fileID: 2073014457}
   runway: {fileID: 2006116427}
   useRunway: 1
 --- !u!1 &2006116427
@@ -1484,7 +1485,6 @@ GameObject:
   - component: {fileID: 2006116431}
   - component: {fileID: 2006116430}
   - component: {fileID: 2006116429}
-  - component: {fileID: 2006116428}
   m_Layer: 11
   m_Name: Runway
   m_TagString: Untagged
@@ -1492,21 +1492,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2006116428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006116427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 144945775c8177245bf58149f6c6caba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0
-  runway: {fileID: 0}
-  useRunway: 0
 --- !u!65 &2006116429
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1575,7 +1560,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006116427}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -17.47}
+  m_LocalPosition: {x: 0, y: 1, z: -17}
   m_LocalScale: {x: 3.8534, y: 0.3, z: 25}
   m_Children:
   - {fileID: 158633294}
