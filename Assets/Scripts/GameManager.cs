@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     int numQuestions = 3;
     [SerializeField]
+    TMP_Text scoreCanvas = null;
+    [SerializeField]
     RewardWall rewardWall = null;
     [SerializeField]
     QuestionManager questionManager = null;
@@ -151,13 +153,17 @@ public class GameManager : MonoBehaviour
         if (celebrationBoxesPassBarrier != null)
             celebrationBoxesPassBarrier.Play();
     }
+    internal void OnScoreChange(int score)
+    {
+        if (scoreCanvas != null)
+            scoreCanvas.text = "Score: " + score;
+    }
 
     void ChangeStateToWaitingAtEnd()
     {
         gameState = GameState.WaitingAtEnd;
         timeBeforeCreatingNextQuestion = Time.time + howLongToCelebrate;
         scroller.scrollingEnabled = false;
-        // Todo: Outro hook
 
     }
 }

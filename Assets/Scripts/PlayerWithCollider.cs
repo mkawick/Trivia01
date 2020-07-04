@@ -29,6 +29,19 @@ public class PlayerWithCollider : MonoBehaviour
             initialState = false;
             return;
         }
+        mask = LayerMask.NameToLayer("Collectable");
+        if (collision.gameObject.layer == mask)
+        {
+            score++;
+            Debug.Log("score :" + score);
+            Destroy(collision.gameObject);
+            var gm = GameObject.Find("GameManager");
+            if (gm)
+            {
+                gm.GetComponent<GameManager>().OnScoreChange(score);
+            }
+        }
+
         if (initialState && playerTester == false)
             return;
 
@@ -51,13 +64,7 @@ public class PlayerWithCollider : MonoBehaviour
                 gm.GetComponent<GameManager>().OnPlayerHitsBarrier();
             }
         }
-        mask = LayerMask.NameToLayer("Collectable");
-        if (collision.gameObject.layer == mask)
-        {
-            score++;
-            Debug.Log("score :" + score);
-            Destroy(collision.gameObject);
-        }
+       
         
     }
    /* bool DetectBarrierAhead()

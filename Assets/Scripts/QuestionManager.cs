@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class QuestionManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject canvas = null;
+    GameObject questionsCanvas = null;
+
     public Button questionButton;
     public Button submitButton;
     public Button[] buttons;
@@ -64,9 +65,9 @@ public class QuestionManager : MonoBehaviour
     internal void EnableQuestions(bool enable)
     {
         allowingQuestions = enable;
-        if(canvas != null)
+        if(questionsCanvas != null)
         {
-            canvas.SetActive(enable);
+            questionsCanvas.SetActive(enable);
         }
     }
     internal void StartRounds(int numRounds)
