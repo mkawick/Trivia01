@@ -23,6 +23,8 @@ public class QuestionManager : MonoBehaviour
     float howLongToCelebrate = 5;
     [SerializeField]
     bool autoComplete = false;
+    [SerializeField]
+    bool questionsAreRandomized = true;
     //[SerializeField]
     internal RewardWall rewardWall;
     internal BoxStacker boxStacker;
@@ -91,8 +93,12 @@ public class QuestionManager : MonoBehaviour
     {
         if (questionMap == null || questionMap.Count < 3)
             LoadQuestions();
-        int selection = UnityEngine.Random.Range(0, questionMap.Count);
+        int selection = 0; 
 
+        if(questionsAreRandomized == true)
+        {
+            selection = UnityEngine.Random.Range(0, questionMap.Count);
+        }
         currentQuestion = GetQuestion(selection);
 
         TriviaQuestion tq = questionMap[currentQuestion];

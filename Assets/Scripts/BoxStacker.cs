@@ -18,20 +18,19 @@ public class BoxStacker : MonoBehaviour
     PlayerWithCollider man = null;
     [SerializeField]
     Transform ground = null;
-
-    //bool isGravityOn = true;
-    Vector3 positionTracker;
-    float boxHeight = 0;
     [SerializeField]
     public bool useDebugColors = false;
-
     [SerializeField]
     float timeBetweenEachBoxSpawned = 0.15f;
-
+    [SerializeField, Range(0.0f, 4.0f)]
+    float boxesPerCorrectAnswer = 1;
+    //-----------------------------------------------------------------
     List<GameObject> boxesSpawned;
     private LayerMask raycastBoxLayer = 0, levelLayer = 0, supportBlockLayer =0;
 
     bool updateSpawnPosition = false;
+    Vector3 positionTracker;
+    float boxHeight = 0;
 
     void Start()
     {
@@ -100,7 +99,8 @@ public class BoxStacker : MonoBehaviour
         if (numBoxes == 0)
             return;
 
-        StartCoroutine("AddBoxTimed", numBoxes);
+        float actualNum = boxesPerCorrectAnswer * numBoxes;
+        StartCoroutine("AddBoxTimed", (int) actualNum);
     }
     IEnumerator AddBoxTimed(int numBoxes)
     {
