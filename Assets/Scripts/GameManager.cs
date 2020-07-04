@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     ParticleSystem celebrationWhenPlayerTouchesDown = null;
     [SerializeField]
     ParticleSystem celebrationIfPlayerFinishesLevel = null;
+    [SerializeField]
+    ParticleSystem celebrationBoxesPassBarrier = null;
 
     [SerializeField]
     bool alwaysScrolls = false;
@@ -142,6 +144,12 @@ public class GameManager : MonoBehaviour
 
         if (celebrationIfPlayerFinishesLevel != null)
             celebrationIfPlayerFinishesLevel.Play();
+    }
+
+    internal void OnBoxesPassBarrier()
+    {
+        if (celebrationBoxesPassBarrier != null)
+            celebrationBoxesPassBarrier.Play();
     }
 
     void ChangeStateToWaitingAtEnd()

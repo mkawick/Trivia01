@@ -6,6 +6,11 @@ public class PlayerWithCollider : MonoBehaviour
 {
     internal bool initialState = true;
 
+    [SerializeField]
+    bool playerTester = false;
+
+    public int score = 0;
+
     internal void Reset()
     {
         initialState = true;
@@ -24,21 +29,36 @@ public class PlayerWithCollider : MonoBehaviour
             initialState = false;
             return;
         }
-        if (initialState)
+        if (initialState && playerTester == false)
             return;
+
         mask = LayerMask.NameToLayer("Ground");
         if (collision.gameObject.layer == mask)
         {
-            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gm.OnPlayerTouchesDown();
+            var gm = GameObject.Find("GameManager");
+            if (gm)
+            {
+                gm.GetComponent<GameManager>().OnPlayerTouchesDown();
+            }
         }
         
         mask = LayerMask.NameToLayer("Barriers");
         if (collision.gameObject.layer == mask)
         {
-            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gm.OnPlayerHitsBarrier();
+            var gm = GameObject.Find("GameManager");
+            if (gm)
+            {
+                gm.GetComponent<GameManager>().OnPlayerHitsBarrier();
+            }
         }
+        mask = LayerMask.NameToLayer("Collectable");
+        if (collision.gameObject.layer == mask)
+        {
+            score++;
+            Debug.Log("score :" + score);
+            Destroy(collision.gameObject);
+        }
+        
     }
    /* bool DetectBarrierAhead()
     {

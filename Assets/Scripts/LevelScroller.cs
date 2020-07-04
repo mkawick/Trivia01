@@ -60,6 +60,26 @@ public class LevelScroller : MonoBehaviour
 
     void NormalScroll()
     {
+        Move(speed);
+    }
+
+    void TestingScroll()
+    {
+        Vector3 pos = transform.position;
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            Move(3);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            /*  pos.z += 3 * Time.deltaTime;
+              transform.position = pos;*/
+            Move(-3);
+        }
+    }
+
+    private void Move(float speed)
+    {
         float offset = speed * Time.deltaTime;
         Vector3 pos = transform.position;
         pos.z -= offset;
@@ -72,20 +92,5 @@ public class LevelScroller : MonoBehaviour
         }
     }
 
-    void TestingScroll()
-    {
-        Vector3 pos = transform.position;
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            pos.z -= 3 * Time.deltaTime;
-            transform.position = pos;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            pos.z += 3 * Time.deltaTime;
-            transform.position = pos;
-        }
-    }
 
-    
 }
