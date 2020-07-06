@@ -21,7 +21,7 @@ public class BoxStacker : MonoBehaviour
     [SerializeField]
     public bool useDebugColors = false;
     [SerializeField]
-    float timeBetweenEachBoxSpawned = 0.15f;
+    float timeBetweenEachBoxSpawned = 0.18f;
     [SerializeField, Range(0.0f, 4.0f)]
     float boxesPerCorrectAnswer = 1;
     //-----------------------------------------------------------------
