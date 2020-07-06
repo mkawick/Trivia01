@@ -24,6 +24,10 @@ public class BoxStacker : MonoBehaviour
     float timeBetweenEachBoxSpawned = 0.18f;
     [SerializeField, Range(0.0f, 4.0f)]
     float boxesPerCorrectAnswer = 1;
+
+    int numBoxesStagedToBeSpawned = 0;
+    int boxIdForDebugging = 0;
+    float timeForNextBoxSpawn = 0;
     //-----------------------------------------------------------------
     List<GameObject> boxesSpawned;
     private LayerMask raycastBoxLayer = 0, levelLayer = 0, supportBlockLayer =0;
@@ -41,6 +45,7 @@ public class BoxStacker : MonoBehaviour
         GetBasePositionAndBoxHeight();
         boxes.gameObject.SetActive(false);
         boxesSpawned = new List<GameObject>();
+
         
         //int value = 1<<LayerMask.NameToLayer("Ground");
     }
@@ -100,9 +105,39 @@ public class BoxStacker : MonoBehaviour
             return;
 
         float actualNum = boxesPerCorrectAnswer * numBoxes;
-        StartCoroutine("AddBoxTimed", (int) actualNum);
+        numBoxesStagedToBeSpawned += (int)actualNum;
+        //StartCoroutine("AddBoxTimed", (int) actualNum);
     }
-    IEnumerator AddBoxTimed(int numBoxes)
+
+    private void LateUpdate()
+    {
+        if (numBoxesStagedToBeSpawned > 0)
+        {
+            updateSpawnPosition = true;
+            if (Utils.HasExpired(timeForNextBoxSpawn))
+            {
+                numBoxesStagedToBeSpawned--;
+                GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
+                obj.SetActive(true);
+                positionTracker.y += boxHeight;
+                boxesSpawned.Add(obj);
+
+                //obj.transform.parent = this.transform;
+                obj.name = "Box " + boxIdForDebugging++;
+                obj.transform.parent = placeToStackBoxes;
+                obj.GetComponent<RaycastBox>().boxStacker = this;
+                obj.GetComponent<Rigidbody>().isKinematic = false;
+                obj.GetComponent<Rigidbody>().useGravity = true;
+
+                timeForNextBoxSpawn = Time.time + timeBetweenEachBoxSpawned;
+            }
+        }
+        else
+        {
+            updateSpawnPosition = false;
+        }
+    }
+  /*  IEnumerator AddBoxTimed(int numBoxes)
     {
         updateSpawnPosition = false;
         for (int i=0; i<numBoxes; i++)
@@ -123,7 +158,7 @@ public class BoxStacker : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         //man.EnableGravity(false);
         updateSpawnPosition = true;
-    }
+    }*/
 
     public void Reset()
     {
@@ -141,13 +176,13 @@ public class BoxStacker : MonoBehaviour
     internal void FrontDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
-        man.EnableGravity(false);
+        //man.EnableGravity(false);
         //isGravityOn = false;
     }
     internal void BackDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
-        man.EnableGravity(true);
+        //man.EnableGravity(true);
         //isGravityOn = true;
 
         var listOfKin = GetComponentsInChildren<RaycastBox>();
@@ -169,12 +204,12 @@ public class BoxStacker : MonoBehaviour
     internal  void BoxHitGround(RaycastBox box)
     {
         //return;
-        box.GetComponent<Rigidbody>().useGravity = false;
-        box.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        foreach (var b in boxesSpawned)
+       // box.GetComponent<Rigidbody>().useGravity = false;
+       // box.GetComponent<Rigidbody>().velocity = Vector3.zero;
+      /*  foreach (var b in boxesSpawned)
         {
             b.GetComponent<Rigidbody>().useGravity = false;
-        }
+        }*/
     }
     internal void BoxHitOtherBlock(RaycastBox box)
     {

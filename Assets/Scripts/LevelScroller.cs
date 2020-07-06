@@ -72,8 +72,6 @@ public class LevelScroller : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            /*  pos.z += 3 * Time.deltaTime;
-              transform.position = pos;*/
             Move(-3);
         }
     }
