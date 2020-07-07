@@ -80,6 +80,14 @@ class PlayerAnimController : MonoBehaviour
         }
     }
 
+    public void Celebrate()
+    {
+        if(UnityEngine.Random.Range(0, 2) != 0)
+            PlayAnim(AnimationPlay.Throw);
+        else 
+            PlayAnim(AnimationPlay.Wave);
+    }
+
     private void Update()
     {
         switch(animState)

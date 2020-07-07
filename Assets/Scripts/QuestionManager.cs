@@ -7,25 +7,33 @@ using UnityEngine.UI;
 
 public class QuestionManager : MonoBehaviour
 {
-    [SerializeField]
-    GameObject questionsCanvas = null;
-
-    public Button questionButton;
-    public Button submitButton;
-    public Button[] buttons;
-    public Color buttonHighlightColor;
-    public Color correctAnswerHighlightColor;
-    public Color incorrectAnswerHighlightColor;
-    private Dictionary<int, TriviaQuestion> questionMap;
-    const int invalidQuestion = -1;
-    int currentQuestion = invalidQuestion;
-
+    [Header("Settings")]
     [SerializeField]
     float howLongToCelebrate = 5;
     [SerializeField]
     bool autoComplete = false;
     [SerializeField]
     bool questionsAreRandomized = true;
+    [SerializeField]
+    GameObject questionsCanvas = null;
+    [SerializeField]
+    ParticleSystem singleQuestionCelebration = null;
+
+    [Header("UI")]
+    public Button questionButton;
+    public Button submitButton;
+    public Button[] buttons;
+
+    [Header("Button colors")]
+    public Color buttonHighlightColor;
+    public Color correctAnswerHighlightColor;
+    public Color incorrectAnswerHighlightColor;
+
+    private Dictionary<int, TriviaQuestion> questionMap;
+    const int invalidQuestion = -1;
+    int currentQuestion = invalidQuestion;
+
+    
     //[SerializeField]
     internal RewardWall rewardWall;
     internal BoxStacker boxStacker;
@@ -35,8 +43,7 @@ public class QuestionManager : MonoBehaviour
     bool allowingQuestions = false;
     internal int numQuestionsRemaining = 0;
 
-    [SerializeField]
-    ParticleSystem singleQuestionCelebration = null;
+    PlayerAnimController playAnimController;
 
     private void Awake()
     {
@@ -44,6 +51,7 @@ public class QuestionManager : MonoBehaviour
         if(submitButton != null)
             submitButton.onClick.AddListener(SubmitAnswerOnClick);
         boxStacker = (BoxStacker)FindObjectOfType(typeof(BoxStacker));
+        playAnimController = (PlayerAnimController)FindObjectOfType(typeof(PlayerAnimController));
     }
     void Start()
     {
@@ -227,6 +235,8 @@ public class QuestionManager : MonoBehaviour
 
         if (singleQuestionCelebration != null)
             singleQuestionCelebration.Play();
+
+        playAnimController.Celebrate();
     }
 
     int CountCorrectItems(int currentQuestion)
