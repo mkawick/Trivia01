@@ -177,14 +177,14 @@ public class BoxStacker : MonoBehaviour
 
     internal void FrontDownwardRayHitCollider()
     {
-        Debug.Log("front ray hit collider");
-        man.EnableGravity(false);
+        //Debug.Log("front ray hit collider");
+        //man.EnableGravity(false);
         //isGravityOn = false;
     }
     internal void BackDownwardRayHitCollider()
     {
-        Debug.Log("front ray hit collider");
-        man.EnableGravity(true);
+        //Debug.Log("back ray stopped touching collider");
+        //man.EnableGravity(true);
         //isGravityOn = true;
 
         var listOfKin = GetComponentsInChildren<RaycastBox>();

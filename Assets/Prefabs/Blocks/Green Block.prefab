@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1282241008642678140}
   - component: {fileID: 6442266540066019307}
   - component: {fileID: 6305025713585236693}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Green Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}

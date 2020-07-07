@@ -21,6 +21,35 @@ public class PlayerWithCollider : MonoBehaviour
         initialState = false;
     }
 
+    private void Update()
+    {
+        if (DetectBarrierBelow())
+        {
+            EnableGravity(false);
+        }
+        else
+        {
+            EnableGravity(true);
+        }
+
+    }
+
+    bool DetectBarrierBelow()
+    {
+        RaycastHit hit;
+        int layerMask = LayerMask.GetMask("Barriers");
+
+        float maxDist = 20;
+        bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
+
+        if (didHit)
+        {
+            int layer = 1 << hit.transform.gameObject.layer;
+        }
+        Debug.DrawLine(transform.position, transform.position + Vector3.down * maxDist, Color.red);
+        return didHit;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         int mask = LayerMask.NameToLayer("SupportBlock");
