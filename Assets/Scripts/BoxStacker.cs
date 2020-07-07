@@ -83,7 +83,7 @@ public class BoxStacker : MonoBehaviour
 
     void GetBasePositionAndBoxHeight()
     {
-        boxHeight = boxes.GetComponent<MeshRenderer>().bounds.extents.y * 2;
+        boxHeight = boxes.GetComponent<BoxCollider>().bounds.extents.y * 2;
 
         positionTracker = spawnPoint.transform.position;
         RaycastHit hit;
@@ -119,17 +119,19 @@ public class BoxStacker : MonoBehaviour
                 numBoxesStagedToBeSpawned--;
                 GameObject obj = Instantiate(boxes, positionTracker, spawnPoint.transform.rotation);
                 obj.SetActive(true);
-                positionTracker.y += boxHeight;
-                boxesSpawned.Add(obj);
+                Utils.SetAllChildrenActive(obj, true);
 
-                //obj.transform.parent = this.transform;
                 obj.name = "Box " + boxIdForDebugging++;
                 obj.transform.parent = placeToStackBoxes;
-                obj.GetComponent<RaycastBox>().boxStacker = this;
+                obj.GetComponent<RaycastBox>().Set(this);
                 obj.GetComponent<Rigidbody>().isKinematic = false;
                 obj.GetComponent<Rigidbody>().useGravity = true;
 
+
                 timeForNextBoxSpawn = Time.time + timeBetweenEachBoxSpawned;
+                positionTracker.y += boxHeight;
+                man.BoxSpawned(positionTracker);
+                boxesSpawned.Add(obj);
             }
         }
         else
@@ -176,13 +178,13 @@ public class BoxStacker : MonoBehaviour
     internal void FrontDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
-        //man.EnableGravity(false);
+        man.EnableGravity(false);
         //isGravityOn = false;
     }
     internal void BackDownwardRayHitCollider()
     {
         Debug.Log("front ray hit collider");
-        //man.EnableGravity(true);
+        man.EnableGravity(true);
         //isGravityOn = true;
 
         var listOfKin = GetComponentsInChildren<RaycastBox>();

@@ -64,8 +64,12 @@ public class PlayerWithCollider : MonoBehaviour
                 gm.GetComponent<GameManager>().OnPlayerHitsBarrier();
             }
         }
-       
-        
+    }
+
+    public void BoxSpawned(Vector3 locationOfBox)
+    {
+        Vector3 verticalOffset = new Vector3(0, 1.2f, 0);
+        this.transform.position = locationOfBox + verticalOffset;
     }
    /* bool DetectBarrierAhead()
     {

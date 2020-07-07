@@ -42,4 +42,15 @@ public static class Utils
             cameras[i].gameObject.SetActive(false);
         }
     }
+
+    static public void SetAllChildrenActive(GameObject parent, bool isActive)
+    {
+        var transforms = new HashSet<Transform>(parent.GetComponentsInChildren<Transform>());
+        transforms.Remove(parent.transform);
+        var objsToHide = transforms.ToArray();
+        foreach (var obj in objsToHide)
+        {
+            obj.transform.gameObject.SetActive(isActive);
+        }
+    }
 }

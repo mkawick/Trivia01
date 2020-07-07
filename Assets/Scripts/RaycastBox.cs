@@ -31,9 +31,14 @@ public class RaycastBox : MonoBehaviour
         barrierIsHit = false;
     }
 
+    public void Set(BoxStacker bs)
+    {
+        boxStacker = bs;
+    }
+
     void GetBasePositionAndBoxHeight()
     {
-        boxHeight = GetComponent<MeshRenderer>().bounds.extents.y * 2;
+        boxHeight = GetComponent<BoxCollider>().bounds.extents.y * 2;
 
         //positionTracker = spawnPoint.transform.position;
       /*  RaycastHit hit;
@@ -66,7 +71,7 @@ public class RaycastBox : MonoBehaviour
             transform = raycastDownRear;
 
 
-        float maxDist = boxHeight/2+0.05f;
+        float maxDist = boxHeight/2+0.1f;
         bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
 
         if (didHit)
@@ -84,7 +89,7 @@ public class RaycastBox : MonoBehaviour
                 // Do whatever you want
             }*/
         }
-        if(boxStacker.useDebugColors == true)
+        if(boxStacker?.useDebugColors == true)
             Debug.DrawLine(transform.position, transform.position + Vector3.down * maxDist, Color.red);
         if (didHit)
             return true;
@@ -94,7 +99,7 @@ public class RaycastBox : MonoBehaviour
 
     void SetColor(Color color)
     {
-        if (boxStacker.useDebugColors == true)
+        if (boxStacker?.useDebugColors == true)
             GetComponent<MeshRenderer>().material.color = color;
     }
 
@@ -107,11 +112,12 @@ public class RaycastBox : MonoBehaviour
         if (DetectBelow(true) == true)
         {
             SetColor(Color.white);
-            boxStacker.FrontDownwardRayHitCollider();
+            boxStacker?.FrontDownwardRayHitCollider();
+            GetComponent<Rigidbody>().useGravity = false;
             //gameObject.AddComponent<PositionConstraint>();
-        /*    var comp = GetComponent<PositionConstraint>();
-            comp.constraintActive = true;
-            comp.AddSource(this);*/
+            /*    var comp = GetComponent<PositionConstraint>();
+                comp.constraintActive = true;
+                comp.AddSource(this);*/
         }
         if (DetectBelow(false) == true)
         {
@@ -124,9 +130,10 @@ public class RaycastBox : MonoBehaviour
             {
                 isWaitingToPassBarrier = false;
                 SetColor(Color.green);
-                boxStacker.BackDownwardRayHitCollider();
-             /*   var comp = GetComponent<PositionConstraint>();
-                Destroy(comp);*/
+                boxStacker?.BackDownwardRayHitCollider();
+                GetComponent<Rigidbody>().useGravity = true;
+                /*   var comp = GetComponent<PositionConstraint>();
+                   Destroy(comp);*/
             }
         }
     }
@@ -136,16 +143,16 @@ public class RaycastBox : MonoBehaviour
         int layer = 1 << collision.gameObject.layer;
         if (layer == barrierLayer)
         {
-            boxStacker.BoxHitBarrier(this);
+            boxStacker?.BoxHitBarrier(this);
         }
         if (layer == groundLayer)
         {
             //boxStacker.BoxHitBarrier(this);
-            boxStacker.BoxHitGround(this);
+            boxStacker?.BoxHitGround(this);
         }
         if (layer == supportBlockLayer)
         {
-            boxStacker.BoxHitOtherBlock(this);
+            boxStacker?.BoxHitOtherBlock(this);
         }
     }
 }
