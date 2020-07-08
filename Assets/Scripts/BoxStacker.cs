@@ -193,7 +193,7 @@ public class BoxStacker : MonoBehaviour
             box.GetComponent<Rigidbody>().useGravity = true;
         }
         var gm = GameObject.FindObjectOfType<GameManager>();
-        gm.OnBoxesPassBarrier();
+        gm?.OnBoxesPassBarrier();
     }
 
     internal void BoxHitBarrier(RaycastBox box)
