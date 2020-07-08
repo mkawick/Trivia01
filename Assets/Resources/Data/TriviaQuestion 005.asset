@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db71c17c35765a428398d391ccd6402, type: 3}
   m_Name: TriviaQuestion 005
   m_EditorClassIdentifier: 
-  question: A fruit
+  question: Which is a type fruit?
   levelOfDifficulty: 1
   numOptions: 2
   numAnswersNeeded: 1

@@ -100,7 +100,13 @@ public class RaycastBox : MonoBehaviour
     void SetColor(Color color)
     {
         if (boxStacker?.useDebugColors == true)
-            GetComponent<MeshRenderer>().material.color = color;
+        {
+            var children = GetComponentsInChildren<MeshRenderer>();
+            foreach(var child in children)
+            {
+                child.material.color = color;
+            }
+        }
     }
 
     private void Update()
