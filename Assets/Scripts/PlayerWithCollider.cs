@@ -77,11 +77,7 @@ public class PlayerWithCollider : MonoBehaviour
         mask = LayerMask.NameToLayer("Ground");
         if (collision.gameObject.layer == mask)
         {
-            var gm = GameObject.Find("GameManager");
-            if (gm)
-            {
-                gm.GetComponent<GameManager>().OnPlayerTouchesDown();
-            }
+            HandleTouchDown();
         }
         
         mask = LayerMask.NameToLayer("Barriers");
@@ -92,6 +88,26 @@ public class PlayerWithCollider : MonoBehaviour
             {
                 gm.GetComponent<GameManager>().OnPlayerHitsBarrier();
             }
+        }
+    }
+
+    void HandleTouchDown()
+    {
+        var gm = GameObject.Find("GameManager");
+        if (gm)
+        {
+            RaycastHit hit;
+            int layerMask = LayerMask.GetMask("ScoringRegion");
+
+            float maxDist = 1;
+            bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
+
+            string text = "";
+            if (didHit)
+            {
+                text = hit.collider.gameObject.GetComponent<ScoringRegion>().awardText;
+            }
+            gm.GetComponent<GameManager>().OnPlayerTouchesDown(text);
         }
     }
 

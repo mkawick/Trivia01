@@ -25,8 +25,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     PlayerWithCollider man = null;
+    [SerializeField]
+    GameObject awardTextCanvas = null;
 
-    
+
 
     [SerializeField]
     LevelScroller scroller = null;
@@ -101,7 +103,6 @@ public class GameManager : MonoBehaviour
                     //scroller.scrollingEnabled = true;
                     var boxStacker = (BoxStacker)FindObjectOfType(typeof(BoxStacker));
                     boxStacker.Reset();
-                    //GetComponent<QuestionManager>()
                 }
                 break;
         }
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
             scroller.Reset();
             scroller.scrollingEnabled = alwaysScrolls;
         }
+        awardTextCanvas?.SetActive(false);
 
         gameState = GameState.TakingQuestions;
         questionManager.EnableQuestions(true);
@@ -132,12 +134,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    internal void OnPlayerTouchesDown()
+    internal void OnPlayerTouchesDown(string awardText)
     {
         ChangeStateToWaitingAtEnd();
 
         if (celebrationWhenPlayerTouchesDown != null)
             celebrationWhenPlayerTouchesDown.Play();
+
+        if(awardTextCanvas)
+        {
+            awardTextCanvas.SetActive(true);
+            TMP_Text text = awardTextCanvas.GetComponent<TMP_Text>();
+            if (text != null)
+                text.text = awardText;
+        }
+        
     }
     internal void OnScrollToEndReached()
     {
