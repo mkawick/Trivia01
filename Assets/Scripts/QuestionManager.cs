@@ -100,7 +100,7 @@ public class QuestionManager : MonoBehaviour
 
     void NextQuestion()
     {
-        if (questionMap == null || questionMap.Count < 3)
+        if (questionMap == null || questionMap.Count < 1)//Capi : Changed from count < 3 to count < 1
             LoadQuestions();
         int selection = 0; 
 
