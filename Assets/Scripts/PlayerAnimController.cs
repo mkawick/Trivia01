@@ -92,10 +92,11 @@ class PlayerAnimController : MonoBehaviour
 
     public void OverrideState(bool shouldOverRide)
     {
+        bool oldState = animationStateIsOverridden;
         animationStateIsOverridden = shouldOverRide;
-        if (animationStateIsOverridden)
+        if (animationStateIsOverridden == true)
             PlayAnim(AnimationPlay.Run);
-        else
+        else if(oldState == true) // allows us to keep calling with with no anim change
             PlayAnim(AnimationPlay.Idle);
     }
 

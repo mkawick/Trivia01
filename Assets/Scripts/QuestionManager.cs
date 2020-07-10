@@ -237,8 +237,11 @@ public class QuestionManager : MonoBehaviour
         if (singleQuestionCelebration != null)
             singleQuestionCelebration.Play();
 
-        playAnimController.OverrideState(false);
-        playAnimController.Celebrate();
+        if (numCorrect > 0)
+        {
+            playAnimController.OverrideState(false);
+            playAnimController.Celebrate();
+        }
     }
 
     int CountCorrectItems(int currentQuestion)
