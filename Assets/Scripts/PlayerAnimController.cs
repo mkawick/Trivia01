@@ -18,6 +18,8 @@ class PlayerAnimController : MonoBehaviour
     float timeUntilIdleEnds = 0;
     float timeUntilNonIdleEnds = 0;
 
+    bool animationStateIsOverridden = false;
+
     enum BasicState
     {
         Idle,
@@ -88,31 +90,35 @@ class PlayerAnimController : MonoBehaviour
             PlayAnim(AnimationPlay.Wave);
     }
 
+    public void OverrideState(bool shouldOverRide)
+    {
+        animationStateIsOverridden = shouldOverRide;
+        if (animationStateIsOverridden)
+            PlayAnim(AnimationPlay.Run);
+        else
+            PlayAnim(AnimationPlay.Idle);
+    }
+
     private void Update()
     {
-        switch(animState)
+        if (animationStateIsOverridden == false)
         {
-            case BasicState.Idle:
-                if (timeUntilIdleEnds < Time.time)
-                {
-                    ChoseNextAnim();
-                }
-                break;
-            case BasicState.NonIdle:
-                if (timeUntilNonIdleEnds < Time.time)
-                {
-                    ReturnToIdle();
-                }
-                break;
+            switch (animState)
+            {
+                case BasicState.Idle:
+                    if (timeUntilIdleEnds < Time.time)
+                    {
+                        ChoseNextAnim();
+                    }
+                    break;
+                case BasicState.NonIdle:
+                    if (timeUntilNonIdleEnds < Time.time)
+                    {
+                        ReturnToIdle();
+                    }
+                    break;
+            }
         }
-      /*  if (timeUntilStateChange < Time.time)
-        {
-            ChoseNextAnim();
-        }
-        else
-        {
-            PlayAnim(AnimationPlay.Idle);
-        }*/
     }
 
     public void ChoseNextAnim()
