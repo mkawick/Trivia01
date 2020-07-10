@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SetupIntroState()
-    {
+    { 
         if (scroller)
         {
             scroller.Reset();
@@ -141,14 +141,14 @@ public class GameManager : MonoBehaviour
         if (celebrationWhenPlayerTouchesDown != null)
             celebrationWhenPlayerTouchesDown.Play();
 
-        if(awardTextCanvas)
+        if (awardTextCanvas)
         {
             awardTextCanvas.SetActive(true);
-            TMP_Text text = awardTextCanvas.GetComponent<TMP_Text>();
+            TMP_Text text = awardTextCanvas.GetComponentInChildren<TMP_Text>();
             if (text != null)
                 text.text = awardText;
         }
-        
+
     }
     internal void OnScrollToEndReached()
     {
