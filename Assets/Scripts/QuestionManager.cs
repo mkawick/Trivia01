@@ -82,7 +82,7 @@ public class QuestionManager : MonoBehaviour
     {
         numQuestionsRemaining = numRounds;
         currentQuestion = invalidQuestion;
-        playAnimController.OverrideState(true);
+        playAnimController.StartRunningState(true);
     }
     public int GetQuestion(int random)
     {
@@ -239,7 +239,7 @@ public class QuestionManager : MonoBehaviour
 
         if (numCorrect > 0)
         {
-            playAnimController.OverrideState(false);
+            playAnimController.StartRunningState(false);
             playAnimController.Celebrate();
         }
     }

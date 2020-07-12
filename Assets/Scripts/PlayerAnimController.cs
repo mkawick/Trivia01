@@ -90,13 +90,23 @@ class PlayerAnimController : MonoBehaviour
             PlayAnim(AnimationPlay.Wave);
     }
 
-    public void OverrideState(bool shouldOverRide)
+    public void StartRunningState(bool enable)
     {
         bool oldState = animationStateIsOverridden;
-        animationStateIsOverridden = shouldOverRide;
+        animationStateIsOverridden = enable;
         if (animationStateIsOverridden == true)
             PlayAnim(AnimationPlay.Run);
         else if(oldState == true) // allows us to keep calling with with no anim change
+            PlayAnim(AnimationPlay.Idle);
+    }
+
+    public void SadnessState(bool enable)
+    {
+        bool oldState = animationStateIsOverridden;
+        animationStateIsOverridden = enable;
+        if (animationStateIsOverridden == true)
+            PlayAnim(AnimationPlay.PanicIdle);
+        else if (oldState == true) // allows us to keep calling with with no anim change
             PlayAnim(AnimationPlay.Idle);
     }
 
