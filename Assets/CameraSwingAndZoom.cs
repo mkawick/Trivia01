@@ -8,6 +8,8 @@ public class CameraSwingAndZoom : MonoBehaviour
     Transform cameraZoomOnPlayerPosition;
     [SerializeField]
     PlayerAnimController playerAnimController;
+    [SerializeField]
+    float timeForZoom = 2, timeToHangOnAnim = 5, timeToRestore = 1;
 
     Vector3 cameraOriginalPosition;
     Quaternion cameraOriginalRotation;
@@ -50,8 +52,7 @@ public class CameraSwingAndZoom : MonoBehaviour
             if (timeWhenZoomCompletes < Time.time)
             {
                 isZooming = false;
-                float timeToPause = 2.0f;
-                timeToCompleteForPause = Time.time + timeToPause;
+                timeToCompleteForPause = Time.time + timeToHangOnAnim;
                 isZoomed = true;
             }
         }
@@ -60,9 +61,8 @@ public class CameraSwingAndZoom : MonoBehaviour
             if (timeToCompleteForPause < Time.time)
             {
                 isZoomed = false;
-                float returnTime = 1.0f;
-                iTween.MoveTo(this.transform.gameObject, cameraOriginalPosition, returnTime);
-                iTween.RotateTo(this.transform.gameObject, cameraOriginalRotation.eulerAngles, returnTime);
+                iTween.MoveTo(this.transform.gameObject, cameraOriginalPosition, timeToRestore);
+                iTween.RotateTo(this.transform.gameObject, cameraOriginalRotation.eulerAngles, timeToRestore);
                 playerAnimController.SadnessState(false, 0);
             }
         }
@@ -84,10 +84,9 @@ public class CameraSwingAndZoom : MonoBehaviour
 
     void BeginCameraZoom()
     {
-        float timeToZoom = 2.0f;
-        timeWhenZoomCompletes = Time.time + timeToZoom;
-        iTween.MoveTo(this.transform.gameObject, cameraZoomOnPlayerPosition.position, timeToZoom);
-        iTween.RotateTo(this.transform.gameObject, cameraZoomOnPlayerPosition.rotation.eulerAngles, timeToZoom);
+        timeWhenZoomCompletes = Time.time + timeForZoom;
+        iTween.MoveTo(this.transform.gameObject, cameraZoomOnPlayerPosition.position, timeForZoom);
+        iTween.RotateTo(this.transform.gameObject, cameraZoomOnPlayerPosition.rotation.eulerAngles, timeForZoom);
         isZooming = true;
     }
 }

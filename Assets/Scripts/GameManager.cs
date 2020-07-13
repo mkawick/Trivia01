@@ -168,6 +168,14 @@ public class GameManager : MonoBehaviour
 
             if (celebrationIfPlayerFinishesLevel != null)
                 celebrationIfPlayerFinishesLevel.Play();
+
+            if (awardTextCanvas)
+            {
+                awardTextCanvas.SetActive(true);
+                TMP_Text text = awardTextCanvas.GetComponentInChildren<TMP_Text>();
+                if (text != null)
+                    text.text = "Fail";
+            }
         }
     }
 
