@@ -7,6 +7,8 @@ public class ScoringRegion : MonoBehaviour
     [SerializeField]
     public string awardText;
 
+    public bool playsSuccessAnim = false;
+
    /* void Start()
     {
         

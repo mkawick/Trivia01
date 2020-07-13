@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     }
     GameState gameState = GameState.Intro;
     float timeBeforeCreatingNextQuestion = 0;
+    CameraSwingAndZoom cameraSwingAndZoom;
 
 
     private void Awake()
@@ -57,6 +58,8 @@ public class GameManager : MonoBehaviour
         Debug.Assert(rewardWall != null, "requires reward wall");
         questionManager.rewardWall = rewardWall;
         rewardWall.BuildWall(9);
+
+        cameraSwingAndZoom = FindObjectOfType<CameraSwingAndZoom>();
     }
 
 

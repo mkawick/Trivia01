@@ -105,24 +105,30 @@ public class PlayerWithCollider : MonoBehaviour
 
     void HandleTouchDown()
     {
-        /* var gm = GameObject.Find("GameManager");
-         if (gm)
-         {
-             RaycastHit hit;
-             int layerMask = LayerMask.GetMask("ScoringRegion");
+        // normally, we don't care if we touch, but if we are in a scoring area...
 
-             float maxDist = 1;
-             bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
+        RaycastHit hit;
+        int layerMask = LayerMask.GetMask("ScoringRegion");
 
-             string text = "";
-             if (didHit)
-             {
-                 text = hit.collider.gameObject.GetComponent<ScoringRegion>().awardText;
-             }
-             gm.GetComponent<GameManager>().OnPlayerTouchesDown(text);
-         }*/
-        /* */
-        GetComponent<PlayerAnimController>().StartRunningState(true);
+        float maxDist = 1;
+        bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
+
+        string text = "";
+        if (didHit)
+        {
+            text = hit.collider.gameObject.GetComponent<ScoringRegion>().awardText;
+            var gm = GameObject.Find("GameManager");
+            if (gm)
+            {
+                gm.GetComponent<GameManager>().OnPlayerTouchesDown(text);
+            }
+            cameraSwingAndZoom?.BeginCelebrationState();
+        }
+        else
+        {
+            GetComponent<PlayerAnimController>().StartRunningState(true);
+        }
+        
     }
 
     public void BoxSpawned(Vector3 locationOfBox)

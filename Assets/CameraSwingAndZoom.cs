@@ -70,12 +70,24 @@ public class CameraSwingAndZoom : MonoBehaviour
 
     internal void BeginSadnessState(int which)
     {
+        BeginCameraZoom();
+
+        playerAnimController.SadnessState(true, which);
+    }
+
+
+    internal void BeginCelebrationState()
+    {
+        BeginCameraZoom();
+        playerAnimController.Celebrate();
+    }
+
+    void BeginCameraZoom()
+    {
         float timeToZoom = 2.0f;
         timeWhenZoomCompletes = Time.time + timeToZoom;
         iTween.MoveTo(this.transform.gameObject, cameraZoomOnPlayerPosition.position, timeToZoom);
         iTween.RotateTo(this.transform.gameObject, cameraZoomOnPlayerPosition.rotation.eulerAngles, timeToZoom);
         isZooming = true;
-
-        playerAnimController.SadnessState(true, which);
     }
 }
