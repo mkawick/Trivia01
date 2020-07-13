@@ -18,6 +18,8 @@ public class CameraSwingAndZoom : MonoBehaviour
     {
         cameraOriginalPosition = this.transform.position;
         cameraOriginalRotation = this.transform.rotation;
+        var player = playerAnimController.GetComponent<PlayerWithCollider>();
+        player.cameraSwingAndZoom = this;
     }
 
     // Update is called once per frame
@@ -66,7 +68,7 @@ public class CameraSwingAndZoom : MonoBehaviour
         }
     }
 
-    void BeginSadnessState(int which)
+    internal void BeginSadnessState(int which)
     {
         float timeToZoom = 2.0f;
         timeWhenZoomCompletes = Time.time + timeToZoom;

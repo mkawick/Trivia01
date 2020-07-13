@@ -10,10 +10,13 @@ public class PlayerWithCollider : MonoBehaviour
     bool playerTester = false;
 
     public int score = 0;
+    internal CameraSwingAndZoom cameraSwingAndZoom;
+    float timerToExitInitialState = 0;
 
     internal void Reset()
     {
         initialState = true;
+        timerToExitInitialState = Time.time + 2;
     }
 
     internal void NormalGameplay()
@@ -23,6 +26,11 @@ public class PlayerWithCollider : MonoBehaviour
 
     private void Update()
     {
+        if(initialState == true)
+        {
+            if (Utils.HasExpired(timerToExitInitialState) == true)
+                initialState = false;
+        }
         if (DetectBarrierBelow())
         {
             EnableGravity(false);
@@ -83,6 +91,10 @@ public class PlayerWithCollider : MonoBehaviour
         mask = LayerMask.NameToLayer("Barriers");
         if (collision.gameObject.layer == mask)
         {
+            if (cameraSwingAndZoom != null)
+            {
+                cameraSwingAndZoom.BeginSadnessState(4);
+            }
             var gm = GameObject.Find("GameManager");
             if (gm)
             {
@@ -93,28 +105,31 @@ public class PlayerWithCollider : MonoBehaviour
 
     void HandleTouchDown()
     {
-        var gm = GameObject.Find("GameManager");
-        if (gm)
-        {
-            RaycastHit hit;
-            int layerMask = LayerMask.GetMask("ScoringRegion");
+        /* var gm = GameObject.Find("GameManager");
+         if (gm)
+         {
+             RaycastHit hit;
+             int layerMask = LayerMask.GetMask("ScoringRegion");
 
-            float maxDist = 1;
-            bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
+             float maxDist = 1;
+             bool didHit = Physics.Raycast(transform.position, Vector3.down, out hit, maxDist, layerMask);
 
-            string text = "";
-            if (didHit)
-            {
-                text = hit.collider.gameObject.GetComponent<ScoringRegion>().awardText;
-            }
-            gm.GetComponent<GameManager>().OnPlayerTouchesDown(text);
-        }
+             string text = "";
+             if (didHit)
+             {
+                 text = hit.collider.gameObject.GetComponent<ScoringRegion>().awardText;
+             }
+             gm.GetComponent<GameManager>().OnPlayerTouchesDown(text);
+         }*/
+        /* */
+        GetComponent<PlayerAnimController>().StartRunningState(true);
     }
 
     public void BoxSpawned(Vector3 locationOfBox)
     {
         Vector3 verticalOffset = new Vector3(0, 1.2f, 0);
         this.transform.position = locationOfBox + verticalOffset;
+        GetComponent<PlayerAnimController>().StartRunningState(false);
     }
    /* bool DetectBarrierAhead()
     {
