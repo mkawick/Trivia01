@@ -23,14 +23,25 @@ public class CameraSwingAndZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            float timeToZoom = 2.0f;
-            timeWhenZoomCompletes = Time.time + timeToZoom;
-            iTween.MoveTo(this.transform.gameObject, cameraZoomOnPlayerPosition.position, timeToZoom);
-            iTween.RotateTo(this.transform.gameObject, cameraZoomOnPlayerPosition.rotation.eulerAngles, timeToZoom);
-            isZooming = true;
-            playerAnimController.SadnessState(true);
+            BeginSadnessState(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            BeginSadnessState(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            BeginSadnessState(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            BeginSadnessState(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            BeginSadnessState(4);
         }
         if (isZooming)
         {
@@ -38,7 +49,7 @@ public class CameraSwingAndZoom : MonoBehaviour
             {
                 isZooming = false;
                 float timeToPause = 2.0f;
-                timeToCompleteForPause = Time.time * timeToPause;
+                timeToCompleteForPause = Time.time + timeToPause;
                 isZoomed = true;
             }
         }
@@ -50,8 +61,19 @@ public class CameraSwingAndZoom : MonoBehaviour
                 float returnTime = 1.0f;
                 iTween.MoveTo(this.transform.gameObject, cameraOriginalPosition, returnTime);
                 iTween.RotateTo(this.transform.gameObject, cameraOriginalRotation.eulerAngles, returnTime);
-                playerAnimController.SadnessState(false);
+                playerAnimController.SadnessState(false, 0);
             }
         }
+    }
+
+    void BeginSadnessState(int which)
+    {
+        float timeToZoom = 2.0f;
+        timeWhenZoomCompletes = Time.time + timeToZoom;
+        iTween.MoveTo(this.transform.gameObject, cameraZoomOnPlayerPosition.position, timeToZoom);
+        iTween.RotateTo(this.transform.gameObject, cameraZoomOnPlayerPosition.rotation.eulerAngles, timeToZoom);
+        isZooming = true;
+
+        playerAnimController.SadnessState(true, which);
     }
 }

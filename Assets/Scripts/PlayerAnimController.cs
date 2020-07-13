@@ -100,12 +100,32 @@ class PlayerAnimController : MonoBehaviour
             PlayAnim(AnimationPlay.Idle);
     }
 
-    public void SadnessState(bool enable)
+    public void SadnessState(bool enable, int which)
     {
         bool oldState = animationStateIsOverridden;
         animationStateIsOverridden = enable;
         if (animationStateIsOverridden == true)
-            PlayAnim(AnimationPlay.PanicIdle);
+        {
+            switch (which)
+            {
+                case 0:
+                    PlayAnim(AnimationPlay.PanicIdle); 
+                    break;
+                case 1:
+                    animator.Play("Death1");
+                    break;
+                case 2:
+                    animator.Play("Death2");
+                    break;
+                case 3:
+                    animator.Play("Death3");
+                    break;
+                case 4:
+                    animator.Play("Death4");
+                    break;
+            }
+            
+        }
         else if (oldState == true) // allows us to keep calling with with no anim change
             PlayAnim(AnimationPlay.Idle);
     }
