@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     ParticleSystem celebrationBoxesPassBarrier = null;
 
+    private int levelScore = 0;
+
     enum GameState
     {
         Intro, ShowSplashScreen, TakingQuestions, Scrolling, WaitingAtEnd
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
         Debug.Assert(rewardWall != null, "requires reward wall");
         questionManager.rewardWall = rewardWall;
         rewardWall.BuildWall(9);
-
+        levelScore = 0;
         cameraSwingAndZoom = FindObjectOfType<CameraSwingAndZoom>();
     }
 
@@ -147,9 +149,18 @@ public class GameManager : MonoBehaviour
         if (awardTextCanvas)
         {
             awardTextCanvas.SetActive(true);
-            TMP_Text text = awardTextCanvas.GetComponentInChildren<TMP_Text>();
-            if (text != null)
-                text.text = awardText;
+            TMP_Text[] texts = awardTextCanvas.GetComponentsInChildren<TMP_Text>();
+            foreach (TMP_Text text in texts)
+            {
+                GameObject go = text.gameObject;
+                if (go != null)
+                {
+                    if (go.name == "WinText")
+                        text.text = "You Win!";
+                    else
+                        text.text = "Coins collected: "+levelScore+"\n"+awardText;
+                }
+            }
         }
 
     }
@@ -172,9 +183,19 @@ public class GameManager : MonoBehaviour
             if (awardTextCanvas)
             {
                 awardTextCanvas.SetActive(true);
-                TMP_Text text = awardTextCanvas.GetComponentInChildren<TMP_Text>();
-                if (text != null)
-                    text.text = "Fail";
+                TMP_Text[] texts = awardTextCanvas.GetComponentsInChildren<TMP_Text>();
+                foreach (TMP_Text text in texts)
+                {
+                    GameObject go = text.gameObject;
+                    if ( go != null)
+                    {
+                        if (go.name == "WinText")
+                            text.text = "Fail";
+                        else
+                            text.text = "";
+                    }
+                }
+                   
             }
         }
     }
@@ -187,7 +208,8 @@ public class GameManager : MonoBehaviour
     internal void OnScoreChange(int score)
     {
         if (scoreCanvas != null)
-            scoreCanvas.text = "Score: " + score;
+            scoreCanvas.text = "Coins: " + score;
+        levelScore = score;
     }
 
     void ChangeStateToWaitingAtEnd()
