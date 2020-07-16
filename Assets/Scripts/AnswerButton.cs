@@ -91,5 +91,6 @@ public class AnswerButton : MonoBehaviour
         isSelected = false;
         ResetColors();
         colorOverlay.SetActive(false);
+        isCorrectAnswer = false;
     }
 }

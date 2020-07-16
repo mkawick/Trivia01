@@ -363,5 +363,12 @@ public class QuestionManager : MonoBehaviour
                 button?.GetComponent<AnswerButton>().Reset();
             }
         }
+        if (imageButtons != null)
+        {
+            foreach (var button in imageButtons)
+            {
+                button?.GetComponent<AnswerButton>().Reset();
+            }
+        }
     }
 }
