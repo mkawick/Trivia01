@@ -22,9 +22,13 @@ MonoBehaviour:
   - Grape
   - Blueberry
   - Orange
+  correctSprites:
+  - {fileID: 21300000, guid: 7faa3bbbd956407459b95f5c0f2461de, type: 3}
   falseAnswers:
   - Cucumber
   - Spinach
   - Leek
   - Tomato
   - Dog
+  falseSprites:
+  - {fileID: 21300000, guid: de6a7a02569c63e42bce501d45817a49, type: 3}

@@ -11,5 +11,7 @@ public class TriviaQuestion : ScriptableObject
     public int numOptions;
     public int numAnswersNeeded;
     public string[] correctAnswers;
+    public Sprite[] correctSprites;
     public string[] falseAnswers;
+    public Sprite[] falseSprites;
 }

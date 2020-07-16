@@ -21,8 +21,10 @@ MonoBehaviour:
   - John Lennon
   - Ringo Star
   - George Harrison
+  correctSprites: []
   falseAnswers:
   - John Stiles
   - George Michael
   - Elton John
   - Elvis Presley
+  falseSprites: []

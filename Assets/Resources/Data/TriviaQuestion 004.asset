@@ -22,8 +22,12 @@ MonoBehaviour:
   - Table
   - Lounge chair
   - Desk
+  correctSprites:
+  - {fileID: 21300000, guid: 82667395d87857b478a1d7637b567a83, type: 3}
   falseAnswers:
   - Plate
   - Meatloaf
   - Ratatouilli
   - Speaker system
+  falseSprites:
+  - {fileID: 21300000, guid: a04b34e0f4c139348bdd99c1e108eb09, type: 3}

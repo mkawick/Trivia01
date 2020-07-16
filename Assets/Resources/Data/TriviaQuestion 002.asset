@@ -21,7 +21,11 @@ MonoBehaviour:
   - TikTok
   - Snap
   - LinkedIn
+  correctSprites:
+  - {fileID: 21300000, guid: 0c7315c185c7adc4ba395d0cd4fc9f1c, type: 3}
   falseAnswers:
   - Apple
   - Google
   - LG
+  falseSprites:
+  - {fileID: 21300000, guid: 307f7b0893d810643a7dff3afa20fa4b, type: 3}
