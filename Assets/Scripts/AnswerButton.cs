@@ -11,6 +11,7 @@ public class AnswerButton : MonoBehaviour
     public Color correctAnswerHighlightColor;
     public Color incorrectAnswerHighlightColor;
     Sprite defaultButtonSprite = null;
+    public bool isCorrectAnswer = false;
 
     [SerializeField]
     GameObject colorOverlay = null;
@@ -36,6 +37,7 @@ public class AnswerButton : MonoBehaviour
             }
         }
     }
+
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);

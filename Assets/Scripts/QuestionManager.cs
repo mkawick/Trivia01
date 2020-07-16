@@ -22,7 +22,8 @@ public class QuestionManager : MonoBehaviour
     [Header("UI")]
     public Button questionButton;
     public Button submitButton;
-    public Button[] buttons;
+    public Button[] textButtons;
+    public Button[] imageButtons;
 
     [Header("Button colors")]
     public Color buttonHighlightColor;
@@ -55,18 +56,22 @@ public class QuestionManager : MonoBehaviour
     }
     void Start()
     {
-        if (buttons != null)
-        {
-            foreach (var button in buttons)
-            {
-                if (button == null)
-                    continue;
+        InitializeButtons(textButtons);
+        InitializeButtons(imageButtons);
+    }
 
-                var ab = button.GetComponent<AnswerButton>();
-                ab.highlightColor = buttonHighlightColor;
-                ab.correctAnswerHighlightColor = correctAnswerHighlightColor;
-                ab.incorrectAnswerHighlightColor = incorrectAnswerHighlightColor;
-            }
+    void InitializeButtons(Button[] textButtons)
+    {
+        foreach (var button in textButtons)
+        {
+            if (button == null)
+                continue;
+
+            var ab = button.GetComponent<AnswerButton>();
+            ab.highlightColor = buttonHighlightColor;
+            ab.correctAnswerHighlightColor = correctAnswerHighlightColor;
+            ab.incorrectAnswerHighlightColor = incorrectAnswerHighlightColor;
+            ab.isCorrectAnswer = false;
         }
     }
 
@@ -124,12 +129,47 @@ public class QuestionManager : MonoBehaviour
         var falseSprites = PutOptionsInList(tq.falseSprites);
 
         // todo: hide unused buttons
-        SelectAnswersForButtons(tq.numAnswersNeeded, buttonList, correctAnswers, correctSprites);
+        SetupImageButtons(correctSprites, falseSprites);
+        SelectAnswersForButtons(tq.numAnswersNeeded, buttonList, correctAnswers, true);
         int numFalseAnswersNeeded = tq.numOptions - tq.numAnswersNeeded;
-        SelectAnswersForButtons(numFalseAnswersNeeded, buttonList, falseAnswers, falseSprites);
+        SelectAnswersForButtons(numFalseAnswersNeeded, buttonList, falseAnswers, false);
     }
 
-    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers, List<Sprite> sprites)
+    void SetupImageButtons(List<Sprite> correctSprites, List<Sprite> falseSprites)
+    {
+        bool imageButtonEnabled = false;
+        if (correctSprites.Count > 0 && falseSprites.Count > 0)
+        {
+            imageButtonEnabled = true;
+            int which = UnityEngine.Random.Range(0, 2);
+            if(which == 0)
+            {
+                imageButtons[0].GetComponent<AnswerButton>().pic = correctSprites[0];
+                imageButtons[0].GetComponent<AnswerButton>().isCorrectAnswer = true;
+                imageButtons[1].GetComponent<AnswerButton>().pic = falseSprites[0];
+                imageButtons[1].GetComponent<AnswerButton>().isCorrectAnswer = false;
+            }
+            else
+            {
+                imageButtons[0].GetComponent<AnswerButton>().pic = falseSprites[0];
+                imageButtons[0].GetComponent<AnswerButton>().isCorrectAnswer = false;
+                imageButtons[1].GetComponent<AnswerButton>().pic = correctSprites[0];
+                imageButtons[1].GetComponent<AnswerButton>().isCorrectAnswer = true;
+            }
+        }
+
+        foreach (var i in imageButtons)
+        {
+            i.gameObject.SetActive(imageButtonEnabled);
+            if (imageButtonEnabled == false)
+                i.GetComponent<AnswerButton>().isCorrectAnswer = false;
+        }
+        foreach(var b in textButtons)
+        {
+            b.gameObject.SetActive(imageButtonEnabled ? false:true);
+        }
+    }
+    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers, bool areCorrect)
     {
         for (int i = 0; i < numToSelect; i++)
         {
@@ -139,13 +179,8 @@ public class QuestionManager : MonoBehaviour
             int which = UnityEngine.Random.Range(0, answers.Count);
             string answer = answers[which];
 
-            // this is a total hack. We will need to select from multiple icons.
-            Sprite spriteOption = null;
-            if (sprites.Count > 0)
-                spriteOption = sprites[0];
-
             b.GetComponentInChildren<AnswerButton>().Answer = answer;
-            b.GetComponentInChildren<AnswerButton>().pic = spriteOption;
+            b.GetComponentInChildren<AnswerButton>().isCorrectAnswer = areCorrect;
 
             buttonList.Remove(b);
             answers.Remove(answer);
@@ -154,16 +189,16 @@ public class QuestionManager : MonoBehaviour
 
     List<Button> PutAllButtonsInAList(int num)
     {
-        if (num == buttons.Length)
+        if (num == textButtons.Length)
         {
-            return buttons.ToList();
+            return textButtons.ToList();
         }
         else
         {
             List<Button> tempList = new List<Button>();
             for (int i = 0; i < num; i++)
             {
-                tempList.Add(buttons[i]);
+                tempList.Add(textButtons[i]);
             }
             return tempList;
         }
@@ -174,9 +209,9 @@ public class QuestionManager : MonoBehaviour
     }
     List<Sprite> PutOptionsInList(Sprite[] options)
     {
-        if (options.Length > 0)
-            return options.ToList();
-        return new List<Sprite>();
+        if (options == null || options.Length == 0)
+            return new List<Sprite>();
+        return options.ToList();
     }
     // Update is called once per frame
     void Update()
@@ -224,7 +259,7 @@ public class QuestionManager : MonoBehaviour
 
         TriviaQuestion tq = questionMap[currentQuestion];
         int count = 0;
-        foreach (var button in buttons)
+        foreach (var button in textButtons)
         {
             AnswerButton ab = button.GetComponent<AnswerButton>();
             if (ab.isSelected == true)
@@ -232,7 +267,15 @@ public class QuestionManager : MonoBehaviour
                 count++;
             }
         }
-        if(count >= tq.numAnswersNeeded)
+        foreach (var button in imageButtons)
+        {
+            AnswerButton ab = button.GetComponent<AnswerButton>();
+            if (ab.isSelected == true)
+            {
+                count++;
+            }
+        }
+        if (count >= tq.numAnswersNeeded)
         {
             FinishRound();
         }
@@ -266,9 +309,12 @@ public class QuestionManager : MonoBehaviour
         TriviaQuestion tq = questionMap[currentQuestion];
         //int numNeeded = tq.numAnswersNeeded;
         int numCorrect = 0, numFalse = 0;
-        foreach (var button in buttons)
+        foreach (var button in textButtons)
         {
             AnswerButton ab = button.GetComponent<AnswerButton>();
+            if (ab.gameObject.activeSelf == false)
+                continue;
+
             string answer = ab.Answer;
             if (ab.isSelected == true)
             {
@@ -291,6 +337,16 @@ public class QuestionManager : MonoBehaviour
                 }
             }
         }
+        foreach (var button in imageButtons)
+        {
+            AnswerButton ab = button.GetComponent<AnswerButton>();
+            if (ab.gameObject.activeSelf == false)
+                continue;
+            if (ab.isSelected == true && ab.isCorrectAnswer)
+            {
+                numCorrect++;
+            }
+        }
         return numCorrect;
     }
 
@@ -300,9 +356,9 @@ public class QuestionManager : MonoBehaviour
     }
     void ResetAllButtons()
     {
-        if (buttons != null)
+        if (textButtons != null)
         {
-            foreach (var button in buttons)
+            foreach (var button in textButtons)
             {
                 button?.GetComponent<AnswerButton>().Reset();
             }
