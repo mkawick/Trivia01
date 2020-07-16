@@ -10,6 +10,7 @@ public class AnswerButton : MonoBehaviour
     internal Color highlightColor;
     public Color correctAnswerHighlightColor;
     public Color incorrectAnswerHighlightColor;
+    Sprite defaultButtonSprite = null;
 
     [SerializeField]
     GameObject colorOverlay = null;
@@ -18,11 +19,29 @@ public class AnswerButton : MonoBehaviour
         get { return GetComponentInChildren<TMPro.TextMeshProUGUI>().text; } 
         set { GetComponentInChildren<TMPro.TextMeshProUGUI>().text = value; } 
     }
+    internal Sprite pic
+    {
+        //Image img = this.GetComponent<Image>();
+        get { return GetComponent<Image>().sprite; }
+        set 
+        {
+            if(value == null)
+            {
+                this.GetComponent<Image>().sprite = defaultButtonSprite;
+            }
+            else
+            {
+                this.GetComponent<Image>().sprite = value;
+                GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "";
+            }
+        }
+    }
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
         defaultColor = GetComponent<Button>().colors.normalColor;
         Debug.Assert(colorOverlay != null);
+        defaultButtonSprite = this.GetComponent<Image>().sprite;
     }
 
     // Update is called once per frame

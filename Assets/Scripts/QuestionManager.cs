@@ -119,22 +119,33 @@ public class QuestionManager : MonoBehaviour
         var buttonList = PutAllButtonsInAList(tq.numOptions);
         var correctAnswers = PutOptionsInList(tq.correctAnswers);
         var falseAnswers = PutOptionsInList(tq.falseAnswers);
+
+        var correctSprites = PutOptionsInList(tq.correctSprites);
+        var falseSprites = PutOptionsInList(tq.falseSprites);
+
         // todo: hide unused buttons
-        SelectAnswersForButtons(tq.numAnswersNeeded, buttonList, correctAnswers);
+        SelectAnswersForButtons(tq.numAnswersNeeded, buttonList, correctAnswers, correctSprites);
         int numFalseAnswersNeeded = tq.numOptions - tq.numAnswersNeeded;
-        SelectAnswersForButtons(numFalseAnswersNeeded, buttonList, falseAnswers);
+        SelectAnswersForButtons(numFalseAnswersNeeded, buttonList, falseAnswers, falseSprites);
     }
 
-    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers)
+    void SelectAnswersForButtons(int numToSelect, List<Button> buttonList, List<string> answers, List<Sprite> sprites)
     {
         for (int i = 0; i < numToSelect; i++)
         {
             Button b = buttonList[UnityEngine.Random.Range(0, buttonList.Count)];
             if (b == null)
                 continue;
-            string answer = answers[UnityEngine.Random.Range(0, answers.Count)];
+            int which = UnityEngine.Random.Range(0, answers.Count);
+            string answer = answers[which];
+
+            // this is a total hack. We will need to select from multiple icons.
+            Sprite spriteOption = null;
+            if (sprites.Count > 0)
+                spriteOption = sprites[0];
 
             b.GetComponentInChildren<AnswerButton>().Answer = answer;
+            b.GetComponentInChildren<AnswerButton>().pic = spriteOption;
 
             buttonList.Remove(b);
             answers.Remove(answer);
@@ -160,6 +171,12 @@ public class QuestionManager : MonoBehaviour
     List<string> PutOptionsInList(string[] options)
     {
         return options.ToList();
+    }
+    List<Sprite> PutOptionsInList(Sprite[] options)
+    {
+        if (options.Length > 0)
+            return options.ToList();
+        return new List<Sprite>();
     }
     // Update is called once per frame
     void Update()
