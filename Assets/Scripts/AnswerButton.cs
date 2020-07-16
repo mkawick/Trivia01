@@ -12,6 +12,7 @@ public class AnswerButton : MonoBehaviour
     public Color incorrectAnswerHighlightColor;
     Sprite defaultButtonSprite = null;
     public bool isCorrectAnswer = false;
+    public GameObject pictureHolder = null;
 
     [SerializeField]
     GameObject colorOverlay = null;
@@ -23,16 +24,16 @@ public class AnswerButton : MonoBehaviour
     internal Sprite pic
     {
         //Image img = this.GetComponent<Image>();
-        get { return GetComponent<Image>().sprite; }
+        get { return pictureHolder != null ? pictureHolder.GetComponent<Image>().sprite : null; }
         set 
         {
             if(value == null)
             {
-                this.GetComponent<Image>().sprite = defaultButtonSprite;
+                pictureHolder.GetComponent<Image>().sprite = defaultButtonSprite;
             }
             else
             {
-                this.GetComponent<Image>().sprite = value;
+                pictureHolder.GetComponent<Image>().sprite = value;
                 GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "";
             }
         }
