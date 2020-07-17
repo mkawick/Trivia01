@@ -337,14 +337,34 @@ public class QuestionManager : MonoBehaviour
                 }
             }
         }
+
         foreach (var button in imageButtons)
+
         {
             AnswerButton ab = button.GetComponent<AnswerButton>();
             if (ab.gameObject.activeSelf == false)
                 continue;
-            if (ab.isSelected == true && ab.isCorrectAnswer)
+            if (ab.isSelected == true) // && ab.isCorrectAnswer)
             {
-                numCorrect++;
+                if (ab.isCorrectAnswer == true)
+                {
+                    numCorrect++;
+                }
+                else
+                {
+                    numFalse++;
+                    ab.ShowIncorrectOverlay();
+                }
+            }
+            else if (ab.isCorrectAnswer == true)
+            {
+                ab.ShowCorrectOverlay();
+
+            }
+            else
+            {
+
+                ab.ShowIncorrectOverlay();
             }
         }
         return numCorrect;
