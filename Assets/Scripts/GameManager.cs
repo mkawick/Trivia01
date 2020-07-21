@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
         {
             scroller.Reset();
             scroller.scrollingEnabled = alwaysScrolls;
+            scroller.GetComponent<CoinManagement>().StartNewLevel();
         }
         awardTextCanvas?.SetActive(false);
 
