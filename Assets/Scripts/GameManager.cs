@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
     internal void OnScoreChange(int score)
     {
         if (scoreCanvas != null)
-            scoreCanvas.text = "Coins: " + score;
+            scoreCanvas.text = "" + score;
         levelScore = score;
     }
 

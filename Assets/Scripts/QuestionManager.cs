@@ -356,16 +356,20 @@ public class QuestionManager : MonoBehaviour
                     ab.ShowIncorrectOverlay();
                 }
             }
-            else if (ab.isCorrectAnswer == true)
+            else
             {
-                ab.ShowCorrectOverlay();
-
+                if (ab.isCorrectAnswer == true)
+                {
+                    ab.ShowCorrectOverlay();
+                }
             }
+            /*
             else
             {
 
                 ab.ShowIncorrectOverlay();
             }
+            */
         }
         return numCorrect;
     }
